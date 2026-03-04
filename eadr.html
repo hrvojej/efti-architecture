@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>eADR Sustav — eFTI Arhitektura</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-content">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">🇪🇺</div>
+      <span>eFTI Arhitektura</span>
+    </a>
+    <button class="mobile-toggle" aria-label="Menu">☰</button>
+    <ul class="nav-links">
+      <li><a href="index.html">Pregled</a></li>
+      <li><a href="components.html">Komponente</a></li>
+      <li><a href="protocols.html">Protokoli</a></li>
+      <li><a href="eadr.html" class="active">eADR Sustav</a></li>
+      <li><a href="analytics.html">Analitika</a></li>
+      <li><a href="inspection.html">Nadzor</a></li>
+      <li><a href="dg-dataset.html">DG Dataset</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="hero-bg"></div>
+  <div class="page-hero-content">
+    <div class="breadcrumb">
+      <a href="index.html">Početna</a> / <span>eADR Sustav</span>
+    </div>
+    <h1>eADR Sustav — Detaljan opis</h1>
+    <p>NPOO C1.4. R1-I5 — Integralni nacionalni sustav za praćenje prijevoza opasnih tvari (DG) u cestovnom prometu.</p>
+  </div>
+</section>
+
+<!-- 3 FUNCTIONAL AREAS -->
+<section class="section">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <div class="section-label">🛡️ Tri funkcionalna područja</div>
+      <h2 class="section-title">eADR Sustav (AKD d.o.o.)</h2>
+    </div>
+
+    <div class="card-grid card-grid-3" data-reveal>
+      <!-- TRAINING -->
+      <div class="card" id="training" data-delay="1">
+        <div class="card-icon green">🎓</div>
+        <h3>(A) Upravljanje osposobljavanjem</h3>
+        <p>Digitalizirani sustav za cjelokupni životni ciklus ADR osposobljavanja — od prijave na tečaj do izdavanja i obnove ADR potvrde.</p>
+        
+        <h4 style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--accent-light);">7 programa osposobljavanja:</h4>
+        <ul style="font-size: 0.85rem; color: var(--text-secondary); padding-left: 1.2rem;">
+          <li>Osnovno ADR (sve klase osim 1 i 7)</li>
+          <li>Specijalizacija — klasa 1 (eksplozivne tvari)</li>
+          <li>Specijalizacija — klasa 7 (radioaktivni materijali)</li>
+          <li>Cisterne (dodatno osposobljavanje)</li>
+          <li>Obnova osposobljavanja (svaka 5 godina)</li>
+          <li>Sigurnosni savjetnik — osnovno</li>
+          <li>Sigurnosni savjetnik — obnova</li>
+        </ul>
+      </div>
+
+      <!-- PERMITS -->
+      <div class="card" id="permits" data-delay="2">
+        <div class="card-icon orange">📜</div>
+        <h3>(B) Elektronička dopuštenja</h3>
+        <p>Digitalno izdavanje, praćenje i upravljanje ADR dopuštenjima za prijevoz specifičnih klasa opasnih tvari.</p>
+        
+        <h4 style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--accent-light);">4 vrste ADR dopuštenja:</h4>
+        <ul style="font-size: 0.85rem; color: var(--text-secondary); padding-left: 1.2rem;">
+          <li><strong>Klasa 1</strong> — Eksplozivi (MUP)</li>
+          <li><strong>Klasa 7</strong> — Radioaktivni mat. (MUP-RCZ)</li>
+          <li><strong>Posebne rute</strong> — Ograničene rute (MMPI)</li>
+          <li><strong>Izvanredni</strong> — Posebni uvjeti (MMPI/MUP)</li>
+        </ul>
+      </div>
+
+      <!-- EFTI INTEGRATION -->
+      <div class="card" id="efti-integration" data-delay="3">
+        <div class="card-icon cyan">🛣️</div>
+        <h3>(C) eFTI Integracija (Nadzor)</h3>
+        <p>Operativni nadzorni modul — primarni use case za inspektore tijekom cestovnih kontrola.</p>
+        
+        <h4 style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--accent-light);">Ključne integracije:</h4>
+        <ul style="font-size: 0.85rem; color: var(--text-secondary); padding-left: 1.2rem;">
+          <li>eFTI Gate mreža (Uredba 2024/1942)</li>
+          <li>Affinis DWH — tahografski podaci (T+1 batch)</li>
+          <li>8 nacionalnih registara</li>
+          <li>Cross-validacija eFTI vs. registri</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ADR CERTIFICATE LIFECYCLE -->
+<section class="section section-dark">
+  <div class="container">
+    <div class="content-block" data-reveal>
+      <h2>📜 Životni ciklus ADR potvrde</h2>
+      
+      <div class="flow-container flow-animated">
+        <div class="flow-row">
+          <div class="flow-node">
+            <div class="node-icon">📝</div>
+            <div class="node-label">Prijava</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">
+            <div class="node-icon">🎓</div>
+            <div class="node-label">Tečaj</div>
+            <div class="node-sub">Učilište</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">
+            <div class="node-icon">📋</div>
+            <div class="node-label">Ispit</div>
+            <div class="node-sub">Ispitni centar</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">
+            <div class="node-icon">✅</div>
+            <div class="node-label">Rezultat</div>
+          </div>
+        </div>
+        <div class="flow-row">
+          <div class="flow-node">
+            <div class="node-icon">🪪</div>
+            <div class="node-label">Potvrda izdana</div>
+            <div class="node-sub">HR-ADR-YYYY-XXXXX</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node" style="border-color: var(--success);">
+            <div class="node-icon">✨</div>
+            <div class="node-label">Aktivna</div>
+            <div class="node-sub">5 godina</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node" style="border-color: var(--warning);">
+            <div class="node-icon">⏰</div>
+            <div class="node-label">Upozorenje</div>
+            <div class="node-sub">3/6/12 mj.</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">
+            <div class="node-icon">🔄</div>
+            <div class="node-label">Obnova / Istekla</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CROSS VALIDATION -->
+<section class="section">
+  <div class="container">
+    <div class="content-block" data-reveal>
+      <h2>🔗 Cross-validacija dopuštenja</h2>
+      <p>Ključna funkcionalnost modula elektroničkih dopuštenja — automatska provjera usklađenosti.</p>
+      
+      <div class="flow-container">
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+          <span style="font-size: 1.2rem; font-weight: 700;">Dopuštenje izdano za klasu 3</span>
+        </div>
+        <div class="card-grid" style="gap: 16px;">
+          <div class="card" style="padding: 1.5rem; text-align: center;">
+            <div style="font-size: 1.5rem; margin-bottom: 8px;">👤</div>
+            <p style="font-size: 0.85rem; margin: 0;">Vozač ima ADR potvrdu za klasu 3?</p>
+            <div style="margin-top: 8px;"><span class="badge badge-green">✓ DA</span></div>
+          </div>
+          <div class="card" style="padding: 1.5rem; text-align: center;">
+            <div style="font-size: 1.5rem; margin-bottom: 8px;">🚛</div>
+            <p style="font-size: 0.85rem; margin: 0;">Vozilo ima ADR odobrenje za klasu 3?</p>
+            <div style="margin-top: 8px;"><span class="badge badge-green">✓ DA</span></div>
+          </div>
+          <div class="card" style="padding: 1.5rem; text-align: center;">
+            <div style="font-size: 1.5rem; margin-bottom: 8px;">📅</div>
+            <p style="font-size: 0.85rem; margin: 0;">ADR potvrda vozača istekla?</p>
+            <div style="margin-top: 8px;"><span class="badge badge-green">✓ NE</span></div>
+          </div>
+          <div class="card" style="padding: 1.5rem; text-align: center;">
+            <div style="font-size: 1.5rem; margin-bottom: 8px;">📋</div>
+            <p style="font-size: 0.85rem; margin: 0;">ADR certifikat vozila istekao?</p>
+            <div style="margin-top: 8px;"><span class="badge badge-green">✓ NE</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 NATIONAL REGISTERS -->
+<section class="section section-dark">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <div class="section-label">📚 Baza podataka</div>
+      <h2 class="section-title">8 Nacionalnih registara</h2>
+    </div>
+
+    <div class="card-grid" data-reveal>
+      <div class="card">
+        <div class="card-icon blue">🚛</div>
+        <h3>1. ADR vozila</h3>
+        <p>~3.000 aktivnih ADR vozila u HR. Registar certifikata, klasa, datuma isteka.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon green">👤</div>
+        <h3>2. ADR vozači</h3>
+        <p>ADR potvrde osposobljenosti — klase, datumi, status, 5-godišnji ciklus.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon purple">🎓</div>
+        <h3>3. Sigurnosni savjetnici</h3>
+        <p>Registar certificiranih ADR sigurnosnih savjetnika.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon orange">🏫</div>
+        <h3>4. Učilišta</h3>
+        <p>Ovlaštena učilišta za ADR programe osposobljavanja.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon cyan">📋</div>
+        <h3>5. Ispitni centri</h3>
+        <p>HAK i drugi ovlašteni centri za ADR ispite.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon red">📜</div>
+        <h3>6. Dopuštenja</h3>
+        <p>Klasa 1 (eksplozivi), klasa 7 (radioaktivni), posebna dopuštenja.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon blue">🏢</div>
+        <h3>7. Prijevoznici</h3>
+        <p>Dijeljeno s Taho/NSCP — registar ADR prijevoznika i licenci.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon orange">📝</div>
+        <h3>8. Nadzori</h3>
+        <p>Pregledi, mjere, rezultati inspekcija — imutabilni zapisi.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMMUNICATION ARCHITECTURE -->
+<section class="section">
+  <div class="container">
+    <div class="content-block" data-reveal>
+      <h2>📡 Komunikacijska arhitektura — sve integracije</h2>
+      
+      <div class="table-wrapper">
+        <table class="table-styled">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Veza</th>
+              <th>Smjer</th>
+              <th>Protokol</th>
+              <th>Autentikacija</th>
+              <th>Svrha</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td><strong>eADR ↔ NIAS</strong></td>
+              <td>Dvosmjerna</td>
+              <td>SAML 2.0 / OAuth 2.0</td>
+              <td>X.509</td>
+              <td>Autentikacija službenika (MUP, DI, Carina, CVH)</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td><strong>eADR ↔ AFFINIS DWH</strong></td>
+              <td>Dvosmjerna</td>
+              <td>REST API + CDC</td>
+              <td>SSH Key / API</td>
+              <td>Taho T+1, analitički export, KPI</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td><strong>eADR ↔ HR eFTI Gate</strong></td>
+              <td>Dvosmjerna</td>
+              <td>eDelivery AS4</td>
+              <td>mTLS</td>
+              <td>UIL upload + selective/full pull DG podataka</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td><strong>HR Gate ↔ EU Gateovi</strong></td>
+              <td>Gate-to-Gate</td>
+              <td>eDelivery AS4</td>
+              <td>mTLS</td>
+              <td>Prekogranična razmjena — strane platforme</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td><strong>eADR ← CVH</strong></td>
+              <td>Ingest</td>
+              <td>REST/SFTP</td>
+              <td>Certifikat</td>
+              <td>ADR pregledi vozila, status odobrenja</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td><strong>eADR ← MMPI</strong></td>
+              <td>Ingest</td>
+              <td>REST/SFTP</td>
+              <td>Certifikat</td>
+              <td>Registar prijevoznika, licenci, učilišta</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td><strong>eADR ← Učilišta/HAK</strong></td>
+              <td>Unos</td>
+              <td>Web UI / API</td>
+              <td>NIAS SSO</td>
+              <td>Rezultati tečajeva i ispita</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- eADR vs NSCP -->
+<section class="section section-dark">
+  <div class="container">
+    <div class="content-block" data-reveal>
+      <h2>⚖️ Razgraničenje — eADR vs. NSCP</h2>
+      
+      <div class="table-wrapper">
+        <table class="table-styled">
+          <thead>
+            <tr>
+              <th>Aspekt</th>
+              <th>eADR</th>
+              <th>NSCP</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Fokus</strong></td>
+              <td>Opasne tvari (DG) — ADR</td>
+              <td>Sav cestovni teret (uklj. ne-DG)</td>
+            </tr>
+            <tr>
+              <td><strong>Registri</strong></td>
+              <td>ADR vozila, vozači, potvrde, dopuštenja</td>
+              <td>Prijevoznici, vozila, licencije (šire)</td>
+            </tr>
+            <tr>
+              <td><strong>eFTI pretraga</strong></td>
+              <td><span class="badge badge-red">eFTI1451=true (samo DG)</span></td>
+              <td>Sav teret</td>
+            </tr>
+            <tr>
+              <td><strong>Nadzor</strong></td>
+              <td>ADR kontrole, oprema, klase</td>
+              <td>Opći cestovni nadzor</td>
+            </tr>
+            <tr>
+              <td><strong>Gate</strong></td>
+              <td colspan="2" style="text-align: center;"><span class="badge badge-blue">Dijele isti HR eFTI Gate</span></td>
+            </tr>
+            <tr>
+              <td><strong>Taho podaci</strong></td>
+              <td>Da — Affinis DWH (T+1)</td>
+              <td>Da — Affinis DWH (T+1)</td>
+            </tr>
+            <tr>
+              <td><strong>SOTAH direktno</strong></td>
+              <td><span class="badge badge-red">NE</span></td>
+              <td><span class="badge badge-red">NE</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="highlight-box" style="margin-top: 2rem;">
+        <p><strong>Ključno:</strong> eADR i NSCP dijele isti HR eFTI Gate — nisu dva zasebna Gatea. eADR je specijalizirani modul koji se fokusira na DG pošiljke (eFTI1451=true) unutar istog eFTI okruženja.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-content">
+    <p><strong>eFTI Referentna Arhitektura</strong> — eADR Sustav</p>
+    <div class="legal-refs">
+      <span class="legal-ref">NPOO C1.4. R1-I5</span>
+      <span class="legal-ref">ADR (UNECE)</span>
+      <span class="legal-ref">Uredba (EU) 2024/1942</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

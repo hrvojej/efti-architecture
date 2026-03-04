@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>eFTI Referentna Arhitektura — Hrvatska</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- ===== NAVIGATION ===== -->
+<nav class="navbar">
+  <div class="nav-content">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">🇪🇺</div>
+      <span>eFTI Arhitektura</span>
+    </a>
+    <button class="mobile-toggle" aria-label="Menu">☰</button>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Pregled</a></li>
+      <li><a href="components.html">Komponente</a></li>
+      <li><a href="protocols.html">Protokoli</a></li>
+      <li><a href="eadr.html">eADR Sustav</a></li>
+      <li><a href="analytics.html">Analitika</a></li>
+      <li><a href="inspection.html">Nadzor</a></li>
+      <li><a href="dg-dataset.html">DG Dataset</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-particles"></div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      🏛️ Uredba (EU) 2024/1942 — Provedbene tehničke specifikacije
+    </div>
+    <h1>
+      <span>eFTI</span> Referentna<br>Arhitektura
+    </h1>
+    <p class="hero-subtitle">
+      Elektroničke informacije o prijevozu tereta — obvezujući dokument za implementaciju 
+      nacionalnog sustava u Republici Hrvatskoj (NSCP + eADR)
+    </p>
+    <div class="hero-cta">
+      <a href="#components" class="btn btn-primary">
+        Istraži komponente →
+      </a>
+      <a href="#architecture" class="btn btn-outline">
+        Arhitekturni pregled
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LEGAL BASIS ===== -->
+<section class="section section-dark" id="legal">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <div class="section-label">📜 Pravna osnova</div>
+      <h2 class="section-title">Tri uredbe — jedan okvir</h2>
+      <p class="section-desc">
+        eFTI okruženje temelji se na tri ključne EU uredbe koje definiraju pravni okvir, 
+        tehničke specifikacije i zajednički skup podataka.
+      </p>
+    </div>
+
+    <div class="card-grid card-grid-3" data-reveal>
+      <div class="card" data-delay="1">
+        <div class="card-icon blue">📘</div>
+        <h3>Uredba (EU) 2020/1056</h3>
+        <p>Bazna eFTI uredba — uspostavlja pravni okvir za elektroničke informacije o prijevozu tereta. Definira UIL (Čl. 4(3)), jedinstvenu identifikacijsku poveznicu (Čl. 9(1)(e)).</p>
+        <div class="tag-group">
+          <span class="tag">Bazna uredba</span>
+          <span class="tag green">Stupila na snagu</span>
+        </div>
+      </div>
+      <div class="card" data-delay="2">
+        <div class="card-icon cyan">⚙️</div>
+        <h3>Provedbena uredba (EU) 2024/1942</h3>
+        <p>Tehničke specifikacije ICT komponenti eFTI okruženja. Definira 5 obveznih komponenti, komunikacijske protokole, sigurnosne zahtjeve (Čl. 1–11, Prilog I).</p>
+        <div class="tag-group">
+          <span class="tag">Provedbena uredba</span>
+          <span class="tag orange">OJ: 20.12.2024.</span>
+        </div>
+      </div>
+      <div class="card" data-delay="3">
+        <div class="card-icon purple">📊</div>
+        <h3>Delegirana uredba (EU) 2024/2024</h3>
+        <p>Zajednički skup podataka, podskupovi i kodne liste. Definira eFTI1451 (DG indikator) — ključan element za eADR sustav.</p>
+        <div class="tag-group">
+          <span class="tag">Delegirana uredba</span>
+          <span class="tag purple">eFTI1451 DG flag</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== KEY STATS ===== -->
+<section class="section">
+  <div class="container">
+    <div class="stats-row" data-reveal>
+      <div class="stat-card">
+        <div class="stat-value" data-counter="5">0</div>
+        <div class="stat-label">ICT komponenti po državi</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" data-counter="27">0</div>
+        <div class="stat-label">EU Gateova (jedan po državi)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">60s</div>
+        <div class="stat-label">Timeout za zahtjev (Čl. 8(5))</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">2 god.</div>
+        <div class="stat-label">Min. retencija audit logova</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">8</div>
+        <div class="stat-label">Nacionalnih registara (eADR)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 5 ICT COMPONENTS ===== -->
+<section class="section section-dark" id="components">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <div class="section-label">🏗️ Čl. 2(3) Uredbe 2024/1942</div>
+      <h2 class="section-title">Pet obveznih ICT komponenti</h2>
+      <p class="section-desc">
+        Svaka država članica mora uspostaviti ovih pet komponenti za sudjelovanje u eFTI okruženju.
+      </p>
+    </div>
+
+    <div class="card-grid" data-reveal>
+      <div class="card" data-delay="1">
+        <div class="card-icon blue">🔐</div>
+        <h3>(a) Authority Access Point — AAP</h3>
+        <p>
+          Točka pristupa za ovlaštena nadležna tijela (Čl. 4). Autentificira službenike, autorizira zahtjeve 
+          provjerom Authorisation Registry-ja, evidentira zahtjeve/odgovore, vodi <strong>revizijski trag min. 2 godine</strong>.
+        </p>
+        <div class="tag-group">
+          <span class="tag">Čl. 4</span>
+          <span class="tag green">Autentikacija</span>
+          <span class="tag orange">Audit 2 god.</span>
+        </div>
+        <a href="components.html#aap" class="card-link">Detalji →</a>
+      </div>
+
+      <div class="card" data-delay="2">
+        <div class="card-icon green">📋</div>
+        <h3>(b) Authorisation Registry</h3>
+        <p>
+          Registar ovlaštenja (Čl. 5). Definira prava pristupa po službeniku — koji podskupovi podataka, 
+          za koje vrste prijevoza. AAP konzultira registar pri svakoj autorizaciji.
+        </p>
+        <div class="tag-group">
+          <span class="tag">Čl. 5</span>
+          <span class="tag green">Prava pristupa</span>
+        </div>
+        <a href="components.html#auth-registry" class="card-link">Detalji →</a>
+      </div>
+
+      <div class="card" data-delay="3">
+        <div class="card-icon cyan">🌐</div>
+        <h3>(c) eFTI Gate</h3>
+        <p>
+          Središnja komunikacijska komponenta (Čl. 6). Validira zahtjeve, usmjerava prema lokalnoj platformi 
+          ili drugom Gate-u, <strong>NE pohranjuje eFTI podatke</strong> — samo metapodatke i logove.
+        </p>
+        <div class="tag-group">
+          <span class="tag">Čl. 6</span>
+          <span class="tag purple">Gate-to-Gate</span>
+          <span class="tag orange">Audit 2 god.</span>
+        </div>
+        <a href="components.html#gate" class="card-link">Detalji →</a>
+      </div>
+
+      <div class="card" data-delay="4">
+        <div class="card-icon purple">🔍</div>
+        <h3>(d) Search Mechanism + RoI</h3>
+        <p>
+          Integrirani Search Mechanism (Čl. 8) + Registry of Identifiers (Čl. 11). Upravlja UIL-ovima, 
+          pretražuje lokalni i udaljene RoI-ove. <strong>eFTI1451</strong> — DG indikator — ključan za eADR.
+        </p>
+        <div class="tag-group">
+          <span class="tag">Čl. 8 + 11</span>
+          <span class="tag purple">eFTI1451</span>
+          <span class="tag">UIL</span>
+        </div>
+        <a href="components.html#search" class="card-link">Detalji →</a>
+      </div>
+
+      <div class="card" data-delay="5">
+        <div class="card-icon orange">💻</div>
+        <h3>(e) User Application</h3>
+        <p>
+          Korisnička aplikacija (Čl. 7). Grafičko sučelje za službenike — generira zahtjeve prema AAP-u, 
+          prikazuje rezultate provjera, omogućuje Proceduru A (UIL sken) i Proceduru B (pretraga).
+        </p>
+        <div class="tag-group">
+          <span class="tag">Čl. 7</span>
+          <span class="tag green">UI sučelje</span>
+        </div>
+        <a href="components.html#user-app" class="card-link">Detalji →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ARCHITECTURE INTERACTIVE DIAGRAM ===== -->
+<section class="section" id="architecture">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <div class="section-label">🔗 Arhitekturni pregled</div>
+      <h2 class="section-title">eFTI okruženje — Država članica (HR)</h2>
+      <p class="section-desc">
+        Interaktivni prikaz svih komponenti i komunikacijskih kanala unutar jedne države članice i prema EU mreži.
+      </p>
+    </div>
+
+    <div class="arch-diagram" data-reveal="scale">
+      <!-- Layer: User -->
+      <div class="arch-layer">
+        <div class="arch-layer-label">Korisnički sloj</div>
+        <div class="arch-nodes">
+          <div class="arch-node" onclick="location.href='components.html#user-app'">
+            <div class="node-emoji">👤</div>
+            <div class="node-name">Ovlašteni službenik</div>
+            <div class="node-ref">Policija / Carina / Inspekcija</div>
+          </div>
+          <div class="arch-node" onclick="location.href='components.html#user-app'">
+            <div class="node-emoji">💻</div>
+            <div class="node-name">User Application</div>
+            <div class="node-ref">Čl. 7 — GUI sučelje</div>
+          </div>
+          <div class="arch-node" onclick="location.href='components.html#auth-registry'">
+            <div class="node-emoji">📋</div>
+            <div class="node-name">Authorisation Registry</div>
+            <div class="node-ref">Čl. 5 — Prava pristupa</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="arch-connector"><span>⬇ ⬇ ⬇</span></div>
+
+      <!-- Layer: AAP -->
+      <div class="arch-layer" style="border-color: rgba(16, 185, 129, 0.3);">
+        <div class="arch-layer-label" style="color: #34d399;">Pristupna točka</div>
+        <div class="arch-nodes">
+          <div class="arch-node" onclick="location.href='components.html#aap'" style="flex: 2; max-width: 400px;">
+            <div class="node-emoji">🔐</div>
+            <div class="node-name">Authority Access Point (AAP)</div>
+            <div class="node-ref">Čl. 4 — Autentikacija + Autorizacija + Audit (min. 2 god.)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="connection-pulse"></div>
+
+      <!-- Layer: Gate -->
+      <div class="arch-layer" style="border-color: rgba(6, 182, 212, 0.3);">
+        <div class="arch-layer-label" style="color: #22d3ee;">eFTI Gate</div>
+        <div class="arch-nodes">
+          <div class="arch-node" onclick="location.href='components.html#gate'" style="flex: 2; max-width: 350px;">
+            <div class="node-emoji">🌐</div>
+            <div class="node-name">HR eFTI Gate</div>
+            <div class="node-ref">Čl. 6 — Validacija + Usmjeravanje</div>
+          </div>
+          <div class="arch-node" onclick="location.href='components.html#search'">
+            <div class="node-emoji">🔍</div>
+            <div class="node-name">Search Mechanism</div>
+            <div class="node-ref">Čl. 8 — Pretraga UIL/ID</div>
+          </div>
+          <div class="arch-node" onclick="location.href='components.html#search'">
+            <div class="node-emoji">📚</div>
+            <div class="node-name">Registry of Identifiers</div>
+            <div class="node-ref">Čl. 11 — UIL + eFTI1451</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="arch-connector"><span>⬇ ⬇ ⬇</span></div>
+
+      <!-- Layer: External -->
+      <div class="arch-layer" style="border-color: rgba(139, 92, 246, 0.3);">
+        <div class="arch-layer-label" style="color: #a78bfa;">Vanjska komunikacija</div>
+        <div class="arch-nodes">
+          <div class="arch-node" onclick="location.href='protocols.html'">
+            <div class="node-emoji">🇩🇪</div>
+            <div class="node-name">DE Gate</div>
+            <div class="node-ref">Gate-to-Gate / eDelivery AS4</div>
+          </div>
+          <div class="arch-node" onclick="location.href='protocols.html'">
+            <div class="node-emoji">🇦🇹</div>
+            <div class="node-name">AT Gate</div>
+            <div class="node-ref">Statičko otkrivanje (Čl. 9(2))</div>
+          </div>
+          <div class="arch-node" onclick="location.href='protocols.html'">
+            <div class="node-emoji">🇸🇮</div>
+            <div class="node-name">SI Gate</div>
+            <div class="node-ref">eDelivery AS4 / mTLS</div>
+          </div>
+          <div class="arch-node" onclick="location.href='protocols.html'">
+            <div class="node-emoji">📦</div>
+            <div class="node-name">eFTI Platforme</div>
+            <div class="node-ref">Dinamičko — SML/SMP (Čl. 9(3))</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CRITICAL RULE ===== -->
+<section class="section section-dark">
+  <div class="container">
+    <div class="two-col">
+      <div data-reveal="left">
+        <div class="section-label">⚠️ Kritično pravilo</div>
+        <h2 class="section-title" style="text-align:left;">Platforma → JEDAN Gate</h2>
+        <p class="section-desc" style="text-align:left; margin: 0 0 1.5rem;">
+          Prema Uvodnoj izjavi 9, svaka eFTI platforma spaja se na <strong>samo jedan Gate</strong> 
+          — Gate države u kojoj joj je izdana certifikacija.
+        </p>
+        <div class="highlight-box warning">
+          <p><strong>Uvodna izjava 10:</strong> Platforma se spaja na Gate države članice u kojoj joj je izdana certifikacija.</p>
+        </div>
+        <div class="highlight-box danger" style="margin-top: 1rem;">
+          <p><strong>❌ NEISPRAVNO:</strong> DE platforma pushuje metapodatke u AT, SI, HR Gateove — 
+          platforma NE komunicira s Gateovima drugih država!</p>
+        </div>
+      </div>
+      <div data-reveal="right">
+        <div class="flow-container">
+          <h4 style="color: var(--success); margin-bottom: 1.5rem;">✅ Ispravan prekogranični tok:</h4>
+          <div class="flow-animated">
+            <div class="flow-row">
+              <div class="flow-node">
+                <div class="node-icon">👮</div>
+                <div class="node-label">HR Inspektor</div>
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node">
+                <div class="node-icon">🔐</div>
+                <div class="node-label">HR AAP</div>
+              </div>
+            </div>
+            <div style="text-align:center;"><div class="flow-arrow down">→</div></div>
+            <div class="flow-row">
+              <div class="flow-node">
+                <div class="node-icon">🌐</div>
+                <div class="node-label">HR Gate</div>
+                <div class="node-sub">UIL nije u HR RoI</div>
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node">
+                <div class="node-icon">🇩🇪</div>
+                <div class="node-label">DE Gate</div>
+                <div class="node-sub">UIL pronađen u DE RoI</div>
+              </div>
+            </div>
+            <div style="text-align:center;"><div class="flow-arrow down">→</div></div>
+            <div class="flow-row">
+              <div class="flow-node">
+                <div class="node-icon">📦</div>
+                <div class="node-label">DE Platforma</div>
+                <div class="node-sub">eFTI podaci</div>
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node">
+                <div class="node-icon">✅</div>
+                <div class="node-label">Podaci vraćeni</div>
+                <div class="node-sub">HR inspektor</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TWO PROCEDURES ===== -->
+<section class="section" id="procedures">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <div class="section-label">📋 Čl. 2(1) — Dvije procedure</div>
+      <h2 class="section-title">Pristup eFTI podacima</h2>
+      <p class="section-desc">
+        Nadležno tijelo može pristupiti eFTI podacima na dva načina — direktno putem UIL-a ili pretragom po identifikatorima.
+      </p>
+    </div>
+
+    <div class="two-col">
+      <div class="card" data-reveal="left">
+        <div class="card-icon green">📱</div>
+        <h3>Procedura A — Direktna UIL komunikacija</h3>
+        <p>Gospodarski subjekt <strong>fizički predočuje UIL</strong> nadležnom tijelu (QR kod, barkod, digitalni display).</p>
+        <div class="flow-container" style="padding: 1.5rem; margin: 1rem 0;">
+          <div class="flow-row" style="font-size: 0.85rem; gap: 8px;">
+            <div class="flow-node" style="padding: 10px 16px; min-width: auto;">
+              <div class="node-label">🚛 QR</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node" style="padding: 10px 16px; min-width: auto;">
+              <div class="node-label">📱 Sken</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node" style="padding: 10px 16px; min-width: auto;">
+              <div class="node-label">🔐 AAP</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node" style="padding: 10px 16px; min-width: auto;">
+              <div class="node-label">🌐 Gate</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node" style="padding: 10px 16px; min-width: auto;">
+              <div class="node-label">📦 Platforma</div>
+            </div>
+          </div>
+        </div>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">UIL = gate_identifier + platform_identifier + UUID (Čl. 11(2))</p>
+      </div>
+
+      <div class="card" data-reveal="right">
+        <div class="card-icon purple">🔍</div>
+        <h3>Procedura B — Pretraga po identifikatorima</h3>
+        <p>Nadležno tijelo koristi <strong>Search Mechanism</strong> za pretragu po registracijskim oznakama, UN broju, itd.</p>
+        <div class="flow-container" style="padding: 1.5rem; margin: 1rem 0;">
+          <div class="flow-row" style="font-size: 0.85rem; gap: 8px;">
+            <div class="flow-node" style="padding: 10px 16px; min-width: auto;">
+              <div class="node-label">🔤 ID unos</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node" style="padding: 10px 16px; min-width: auto;">
+              <div class="node-label">🔍 Search</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node" style="padding: 10px 16px; min-width: auto;">
+              <div class="node-label">📚 RoI</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node" style="padding: 10px 16px; min-width: auto;">
+              <div class="node-label">🌐 Gateovi</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node" style="padding: 10px 16px; min-width: auto;">
+              <div class="node-label">📦 Platforma</div>
+            </div>
+          </div>
+        </div>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">Pretražuje lokalni RoI pa RoI svih ostalih Gateova (Čl. 8(4)–(6))</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== COMMUNICATION PROTOCOLS ===== -->
+<section class="section section-dark" id="protocols">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <div class="section-label">📡 Čl. 9 — Komunikacija</div>
+      <h2 class="section-title">Komunikacijski protokoli</h2>
+    </div>
+
+    <div class="table-wrapper" data-reveal>
+      <table class="table-styled">
+        <thead>
+          <tr>
+            <th>Veza</th>
+            <th>Protokol</th>
+            <th>Discovery</th>
+            <th>Format</th>
+            <th>Referenca</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Gate ↔ Gate</strong></td>
+            <td>eDelivery AS4</td>
+            <td><span class="badge badge-blue">Statičko</span></td>
+            <td>XML</td>
+            <td>Čl. 9(2)</td>
+          </tr>
+          <tr>
+            <td><strong>Gate ↔ Platforma</strong></td>
+            <td>eDelivery AS4</td>
+            <td><span class="badge badge-purple">Dinamičko — SML/SMP</span></td>
+            <td>XML</td>
+            <td>Čl. 9(3)</td>
+          </tr>
+          <tr>
+            <td><strong>Gate ↔ Platforma (ista država)</strong></td>
+            <td>Nacionalni ekvivalent</td>
+            <td><span class="badge badge-green">Po nac. impl.</span></td>
+            <td>Po dogovoru</td>
+            <td>Čl. 9(4)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="two-col" style="margin-top: 3rem;">
+      <div class="card" data-reveal="left">
+        <div class="card-icon blue">🔒</div>
+        <h3>Statičko otkrivanje — Gate-to-Gate</h3>
+        <p>~27 Gateova (jedan po državi), fiksne konfigurirane adrese, rijetke promjene. Svaki Gate održava registar svih ostalih Gateova s certifikatima (Čl. 6(3)(e)).</p>
+        <a href="protocols.html#static" class="card-link">Detalji o statičkom otkrivanju →</a>
+      </div>
+      <div class="card" data-reveal="right">
+        <div class="card-icon cyan">🌍</div>
+        <h3>Dinamičko otkrivanje — SML/SMP</h3>
+        <p>Stotine/tisuće platformi → automatsko otkrivanje putem SML (DNS lookup) + SMP (HTTPS metadata). Isti mehanizam koriste PEPPOL, eIDAS, EHDSI.</p>
+        <a href="protocols.html#dynamic" class="card-link">Detalji o SML/SMP →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== eADR OVERVIEW ===== -->
+<section class="section" id="eadr">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <div class="section-label">🛡️ NPOO C1.4. R1-I5</div>
+      <h2 class="section-title">eADR Sustav — Tri funkcionalna područja</h2>
+      <p class="section-desc">
+        Integralni nacionalni sustav za praćenje prijevoza opasnih tvari u cestovnom prometu.
+      </p>
+    </div>
+
+    <div class="card-grid card-grid-3" data-reveal>
+      <div class="card" data-delay="1">
+        <div class="card-icon green">🎓</div>
+        <h3>(A) Osposobljavanje</h3>
+        <p>Digitalizirani sustav za cjelokupni životni ciklus ADR osposobljavanja — 7 programa, od prijave na tečaj do izdavanja i obnove ADR potvrde.</p>
+        <div class="tag-group">
+          <span class="tag green">7 programa</span>
+          <span class="tag">5-god. ciklus</span>
+        </div>
+        <a href="eadr.html#training" class="card-link">Detalji →</a>
+      </div>
+
+      <div class="card" data-delay="2">
+        <div class="card-icon orange">📜</div>
+        <h3>(B) Elektronička dopuštenja</h3>
+        <p>Digitalno izdavanje i praćenje ADR dopuštenja — 4 vrste (MUP, MUP-RCZ, MMPI). Cross-validacija vozač/vozilo/dopuštenje.</p>
+        <div class="tag-group">
+          <span class="tag orange">4 vrste</span>
+          <span class="tag">Cross-validacija</span>
+        </div>
+        <a href="eadr.html#permits" class="card-link">Detalji →</a>
+      </div>
+
+      <div class="card" data-delay="3">
+        <div class="card-icon cyan">🛣️</div>
+        <h3>(C) eFTI Integracija (Nadzor)</h3>
+        <p>Operativni nadzorni modul za inspektore. Integracija s eFTI Gate mrežom i Affinis DWH za tahografske podatke (T+1 batch).</p>
+        <div class="tag-group">
+          <span class="tag">eFTI Gate</span>
+          <span class="tag purple">Affinis T+1</span>
+        </div>
+        <a href="eadr.html#efti-integration" class="card-link">Detalji →</a>
+      </div>
+    </div>
+
+    <div data-reveal style="margin-top: 3rem;">
+      <div class="highlight-box">
+        <p><strong>8 Nacionalnih registara:</strong> ADR vozila (~3.000) • ADR vozači (potvrde) • Sigurnosni savjetnici • Ovlaštena učilišta • Ispitni centri (HAK) • Dopuštenja (klasa 1/7/posebna) • Prijevoznici • Nadzori (pregledi/mjere)</p>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 2rem;" data-reveal>
+      <a href="eadr.html" class="btn btn-primary">
+        Detaljno o eADR sustavu →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ANALYTICS PREVIEW ===== -->
+<section class="section section-dark" id="analytics">
+  <div class="container">
+    <div class="two-col">
+      <div data-reveal="left">
+        <div class="section-label">📊 AFFINIS — Pravni okvir</div>
+        <h2 class="section-title" style="text-align:left;">Analitička obrada eFTI podataka</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+          AFFINIS DWH prima podatke iz legitimnih izvora — AAP arhive, RoI metapodataka i audit logova. 
+          <strong>Bulk pull s platformi bez nadzora nije dopušten</strong> (Čl. 2(5)).
+        </p>
+        <div class="highlight-box success">
+          <p><strong>✅ Legitimni izvori:</strong> AAP arhiva (puni eFTI odgovori), RoI metapodaci (eFTI1451, UIL), Audit logovi (AAP + Gate) — za monitoring i statističke svrhe (Uvodna izjava 8).</p>
+        </div>
+        <div class="highlight-box danger" style="margin-top: 1rem;">
+          <p><strong>❌ Zabranjeno:</strong> Automatski bulk upiti prema stranim platformama čisto za analitiku — Čl. 2(5): pristup samo za provjeru usklađenosti.</p>
+        </div>
+        <a href="analytics.html" class="btn btn-outline" style="margin-top: 1.5rem;">
+          Detaljno o analitici →
+        </a>
+      </div>
+      <div data-reveal="right">
+        <div class="flow-container" style="padding: 2rem;">
+          <h4 style="color: var(--success); margin-bottom: 1rem; font-size: 0.9rem;">✅ Legitimni tok podataka za analitiku</h4>
+          <div class="process-steps">
+            <div class="process-step active">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <h4>HR AAP Arhiva</h4>
+                <p>Puni eFTI odgovori, rezultati nadzora, min. 2 god. retencija (Čl. 4(2))</p>
+              </div>
+            </div>
+            <div class="process-step">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <h4>Batch T+1 (CDC/REST)</h4>
+                <p>Podatci se prenose u AFFINIS DWH sljedećeg dana</p>
+              </div>
+            </div>
+            <div class="process-step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <h4>AFFINIS DWH</h4>
+                <p>Pseudonimizirano — statistika, DG analitika, trend analize, KPI dashboards</p>
+              </div>
+            </div>
+            <div class="process-step">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <h4>RoI + Audit logovi</h4>
+                <p>Metapodaci i operacijski logovi za monitoring i statistiku</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ROAD INSPECTION PREVIEW ===== -->
+<section class="section" id="inspection">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <div class="section-label">🚛 Operativni scenarij</div>
+      <h2 class="section-title">Tok podataka pri cestovnom nadzoru</h2>
+      <p class="section-desc">
+        Integrirani prikaz svih 9 koraka nadzora — od autentikacije inspektora do konačnog ishoda i AFFINIS exporta.
+      </p>
+    </div>
+
+    <div class="flow-container flow-animated" data-reveal>
+      <div class="flow-row">
+        <div class="flow-node">
+          <div class="node-icon">🔐</div>
+          <div class="node-label">1. NIAS Login</div>
+          <div class="node-sub">SAML 2.0 / OAuth</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">
+          <div class="node-icon">🔍</div>
+          <div class="node-label">2. Reg. oznaka</div>
+          <div class="node-sub">ZG-7823-KD</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">
+          <div class="node-icon">📋</div>
+          <div class="node-label">3. 8 Registara</div>
+          <div class="node-sub">Vozilo/Vozač/Dozvola ✓</div>
+        </div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-node">
+          <div class="node-icon">⏱️</div>
+          <div class="node-label">4. Taho T+1</div>
+          <div class="node-sub">Affinis DWH REST</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">
+          <div class="node-icon">🔧</div>
+          <div class="node-label">5. Fizički pregled</div>
+          <div class="node-sub">ADR oznake, oprema</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">
+          <div class="node-icon">🌐</div>
+          <div class="node-label">6. eFTI dohvat</div>
+          <div class="node-sub">Gate → DE platforma</div>
+        </div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-node">
+          <div class="node-icon">✅</div>
+          <div class="node-label">7. Cross-validacija</div>
+          <div class="node-sub">eFTI vs. Registri</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">
+          <div class="node-icon">📝</div>
+          <div class="node-label">8. Ishod</div>
+          <div class="node-sub">Sukladno / Mjere</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">
+          <div class="node-icon">📊</div>
+          <div class="node-label">9. AFFINIS T+1</div>
+          <div class="node-sub">Batch export → DWH</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 2rem;" data-reveal>
+      <a href="inspection.html" class="btn btn-primary">
+        Detaljni tok nadzora →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DG DATASET PREVIEW ===== -->
+<section class="section section-dark" id="dg-dataset">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <div class="section-label">☣️ ADR / eFTI</div>
+      <h2 class="section-title">DG Dataset — Proces kreiranja</h2>
+      <p class="section-desc">
+        Od klasifikacije opasne tvari do dostupnosti podataka na eFTI Gate mreži — tri faze procesa.
+      </p>
+    </div>
+
+    <div class="card-grid card-grid-3" data-reveal>
+      <div class="card" data-delay="1">
+        <div class="card-icon orange">📋</div>
+        <h3>Faza 1 — Klasifikacija</h3>
+        <p>Pošiljatelj klasificira tvar (ADR Dio 2): UN broj, ADR razred, klasifikacijski kod, ambalaža skupina, proper shipping name. Priprema DG deklaraciju.</p>
+        <div class="tag-group">
+          <span class="tag orange">Pošiljatelj</span>
+          <span class="tag">ADR 5.4.1</span>
+        </div>
+      </div>
+      <div class="card" data-delay="2">
+        <div class="card-icon blue">📦</div>
+        <h3>Faza 2 — Unos na platformu</h3>
+        <p>Gosp. subjekt unosi na eFTI platformu: pošiljatelj/primatelj, DG stavke (UN, klasa, PG), vozilo, vozač, ADR opremu, planirane dionice.</p>
+        <div class="tag-group">
+          <span class="tag">eFTI platforma</span>
+          <span class="tag green">Self-declared</span>
+        </div>
+      </div>
+      <div class="card" data-delay="3">
+        <div class="card-icon green">✅</div>
+        <h3>Faza 3 — UIL registracija</h3>
+        <p>Platforma validira format, generira UIL, uploadira u RoI matičnog Gatea s eFTI1451=true. Podaci dostupni za dohvat kroz Gate mrežu.</p>
+        <div class="tag-group">
+          <span class="tag purple">eFTI1451=true</span>
+          <span class="tag">Čl. 11</span>
+        </div>
+      </div>
+    </div>
+
+    <div data-reveal style="margin-top: 2rem;">
+      <div class="highlight-box warning">
+        <p><strong>⚠️ Ključni zaključak:</strong> ADR compliance je operativna odgovornost sudionika u lancu 
+        (pošiljatelj, prijevoznik, vozač, utovarivač) — NE eFTI platforme. Platforma evidentira regulatorne 
+        informacije, a ne provjerava ih operativno. Podaci o vozaču/vozilu u eFTI odgovoru su <strong>self-declared</strong> — 
+        inspektor ih mora fizički verificirati.</p>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 2rem;" data-reveal>
+      <a href="dg-dataset.html" class="btn btn-primary">
+        Kompletni DG dataset proces →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHAT HR MUST BUILD ===== -->
+<section class="section">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <div class="section-label">🇭🇷 Implikacije za Hrvatsku</div>
+      <h2 class="section-title">Što Hrvatska mora izgraditi</h2>
+    </div>
+
+    <div class="timeline" data-reveal>
+      <div class="timeline-step">
+        <div class="timeline-marker">1</div>
+        <div class="timeline-content">
+          <h3>HR eFTI Gate</h3>
+          <p>S integriranim Search Mechanismom i Registry of Identifiers (RoI). Dijeli se između NSCP i eADR.</p>
+        </div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-marker">2</div>
+        <div class="timeline-content">
+          <h3>HR Authority Access Point (AAP)</h3>
+          <p>Za pristup ovlaštenih tijela — policija, carina, inspekcije. Autentikacija + autorizacija + audit log.</p>
+        </div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-marker">3</div>
+        <div class="timeline-content">
+          <h3>Authorisation Registry</h3>
+          <p>Prava pristupa po službeniku — koji podskupovi podataka, za koje vrste prijevoza.</p>
+        </div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-marker">4</div>
+        <div class="timeline-content">
+          <h3>User Application</h3>
+          <p>Sučelje za službenike — Procedura A (UIL sken) i Procedura B (pretraga po identifikatorima).</p>
+        </div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-marker">5</div>
+        <div class="timeline-content">
+          <h3>eDelivery AS4 infrastruktura</h3>
+          <p>Za Gate-to-Gate (statičko, ~27 država) i Gate-to-Platform (dinamičko, SML/SMP) komunikaciju.</p>
+        </div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-marker">6</div>
+        <div class="timeline-content">
+          <h3>Registry of Identifiers (RoI)</h3>
+          <p>Za UIL registraciju hrvatskih platformi + pretragu. Upload UIL + identifikatora + eFTI1451 DG indikatora.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== QUICK NAVIGATION ===== -->
+<section class="section section-dark">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <div class="section-label">📖 Brza navigacija</div>
+      <h2 class="section-title">Istražite detaljne stranice</h2>
+    </div>
+
+    <div class="card-grid card-grid-3" data-reveal>
+      <a href="components.html" class="card" style="text-decoration: none;">
+        <div class="card-icon blue">🏗️</div>
+        <h3>5 ICT Komponenti</h3>
+        <p>Detaljni opis svake od pet obveznih komponenti — AAP, Authorisation Registry, eFTI Gate, Search Mechanism + RoI, User Application.</p>
+      </a>
+      <a href="protocols.html" class="card" style="text-decoration: none;">
+        <div class="card-icon cyan">📡</div>
+        <h3>Komunikacijski protokoli</h3>
+        <p>eDelivery AS4, statičko vs. dinamičko otkrivanje, SML/SMP mehanizam, nacionalna alternativa (Čl. 9(4)).</p>
+      </a>
+      <a href="eadr.html" class="card" style="text-decoration: none;">
+        <div class="card-icon green">🛡️</div>
+        <h3>eADR Sustav</h3>
+        <p>Tri funkcionalna područja, 8 nacionalnih registara, komunikacijska arhitektura, razgraničenje eADR vs NSCP.</p>
+      </a>
+      <a href="analytics.html" class="card" style="text-decoration: none;">
+        <div class="card-icon purple">📊</div>
+        <h3>Analitika (AFFINIS)</h3>
+        <p>Pravni okvir, legitimni izvori, implementacijski model, obvezni uvjeti — pseudonimizacija, GDPR Čl. 89.</p>
+      </a>
+      <a href="inspection.html" class="card" style="text-decoration: none;">
+        <div class="card-icon orange">🚛</div>
+        <h3>Cestovni nadzor</h3>
+        <p>Kompletni tok podataka — 9 koraka od NIAS autentikacije do AFFINIS T+1 exporta.</p>
+      </a>
+      <a href="dg-dataset.html" class="card" style="text-decoration: none;">
+        <div class="card-icon red">☣️</div>
+        <h3>DG Dataset</h3>
+        <p>Proces kreiranja DG dataseta na platformi, ADR lanac odgovornosti, selective pull, cross-validacija.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer-content">
+    <p>
+      <strong>eFTI Referentna Arhitektura</strong> — obvezujući dokument za implementaciju<br>
+      Primjenjuje se na: dizajn, razvoj, integraciju, testiranje i produkcijsku implementaciju.
+    </p>
+    <div class="legal-refs">
+      <span class="legal-ref">Uredba (EU) 2020/1056</span>
+      <span class="legal-ref">Provedbena (EU) 2024/1942</span>
+      <span class="legal-ref">Delegirana (EU) 2024/2024</span>
+    </div>
+    <p style="margin-top: 1.5rem; font-size: 0.8rem;">
+      Kompilirano iz izvornog teksta Uredbi objavljenih u Službenom listu Europske unije (EUR-Lex).
+    </p>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

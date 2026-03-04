@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analitika (AFFINIS) — eFTI Arhitektura</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-content">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">🇪🇺</div>
+      <span>eFTI Arhitektura</span>
+    </a>
+    <button class="mobile-toggle" aria-label="Menu">☰</button>
+    <ul class="nav-links">
+      <li><a href="index.html">Pregled</a></li>
+      <li><a href="components.html">Komponente</a></li>
+      <li><a href="protocols.html">Protokoli</a></li>
+      <li><a href="eadr.html">eADR Sustav</a></li>
+      <li><a href="analytics.html" class="active">Analitika</a></li>
+      <li><a href="inspection.html">Nadzor</a></li>
+      <li><a href="dg-dataset.html">DG Dataset</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="hero-bg"></div>
+  <div class="page-hero-content">
+    <div class="breadcrumb">
+      <a href="index.html">Početna</a> / <span>Analitika (AFFINIS)</span>
+    </div>
+    <h1>Analitička obrada eFTI podataka</h1>
+    <p>AFFINIS DWH — pravni okvir, legitimni izvori, implementacijski model i obvezni uvjeti za analitičku obradu.</p>
+  </div>
+</section>
+
+<!-- ACCESS LIMITATION -->
+<section class="section">
+  <div class="container">
+    <div class="content-block" data-reveal>
+      <h2>⚖️ Ograničenje svrhe pristupa (Čl. 2(5))</h2>
+      
+      <div class="highlight-box warning">
+        <p><strong>Čl. 2(5):</strong> <em>"Member States remain responsible for ensuring that the access and processing by competent authorities of eFTI data is done <strong>only for the purposes of checking compliance</strong> with the applicable EU and national legal provisions."</em></p>
+      </div>
+
+      <p>Svaki dohvat eFTI podataka s platforme mora biti vezan uz <strong>konkretan nadzor konkretnog službenika</strong>. Spekulativni bulk pull podataka s platformi isključivo u analitičke svrhe <strong>NIJE DOPUŠTEN</strong>.</p>
+
+      <div class="two-col" style="margin-top: 2rem;">
+        <div class="highlight-box success">
+          <p><strong>✅ DOPUŠTENO:</strong> Svaki legitimni nadzor = legalni podaci za AFFINIS. Jednom dohvaćeni podaci smiju se dalje obrađivati za statističke svrhe (GDPR Čl. 5(1)(b), Čl. 89).</p>
+        </div>
+        <div class="highlight-box danger">
+          <p><strong>❌ ZABRANJENO:</strong> HR Gate NE SMIJE slati automatske bulk upite prema stranim platformama čisto da bi napunio AFFINIS analitiku.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AAP ARCHIVE -->
+<section class="section section-dark">
+  <div class="container">
+    <div class="content-block" data-reveal>
+      <h2>🗄️ AAP arhiva — legitimni izvor punih eFTI podataka</h2>
+      
+      <p>AAP je obvezan arhivirati (Čl. 4(2)(f–g)):</p>
+      <ul>
+        <li><strong>Svaki zahtjev</strong> i <strong>svaki primljeni odgovor</strong> (uklj. pune eFTI podatke) — minimalno <strong>2 godine</strong></li>
+        <li><strong>Revizijski trag:</strong> tko je pristupio, kada, koji podaci, rezultat</li>
+      </ul>
+
+      <div class="highlight-box">
+        <p>Jednom legitimno dohvaćeni podaci putem nadzora postaju dio AAP arhive i smiju se dalje obrađivati za statističke svrhe (GDPR Čl. 5(1)(b), Čl. 89).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEGITIMATE SOURCES -->
+<section class="section">
+  <div class="container">
+    <div class="content-block" data-reveal>
+      <h2>📊 Legitimni izvori za AFFINIS</h2>
+      
+      <div class="table-wrapper">
+        <table class="table-styled">
+          <thead>
+            <tr>
+              <th>Izvor</th>
+              <th>Sadržaj</th>
+              <th>Pravna osnova</th>
+              <th>Za analitiku?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>AAP arhiva</strong></td>
+              <td>Puni eFTI odgovori iz provedenih nadzora</td>
+              <td>Čl. 4(2)(g) — obvezna 2-god. arhiva</td>
+              <td><span class="badge badge-green">DA ✅</span></td>
+            </tr>
+            <tr>
+              <td><strong>AAP arhiva (strani podaci)</strong></td>
+              <td>Puni eFTI podaci s platformi drugih država (DE, AT, SI...)</td>
+              <td>Čl. 4(2)(g) + GDPR Čl. 89</td>
+              <td><span class="badge badge-green">DA ✅</span></td>
+            </tr>
+            <tr>
+              <td><strong>RoI metapodaci</strong></td>
+              <td>UIL zapisi, eFTI1451, identifikatori prijevoza</td>
+              <td>Uvodna izjava 8 — "monitoring or statistical"</td>
+              <td><span class="badge badge-green">DA ✅</span></td>
+            </tr>
+            <tr>
+              <td><strong>Audit logovi (AAP)</strong></td>
+              <td>Tko, kada, koji podaci, rezultat</td>
+              <td>Čl. 4(2)(f) — obvezni 2 god.</td>
+              <td><span class="badge badge-green">DA ✅</span></td>
+            </tr>
+            <tr>
+              <td><strong>Audit logovi (Gate) — odlazni</strong></td>
+              <td>HR upiti prema stranim Gateovima</td>
+              <td>Čl. 6(2)(c,g,h) — obvezni 2 god.</td>
+              <td><span class="badge badge-green">DA ✅</span></td>
+            </tr>
+            <tr>
+              <td><strong>Audit logovi (Gate) — dolazni</strong></td>
+              <td>Upiti stranih tijela prema HR Gate-u</td>
+              <td>Čl. 6(2)(c,g,h) + Uv. izj. 8</td>
+              <td><span class="badge badge-green">DA ✅</span></td>
+            </tr>
+            <tr>
+              <td><strong>Bulk pull s platformi</strong> (bez nadzora)</td>
+              <td>eFTI podaci dohvaćeni čisto za analitiku</td>
+              <td>—</td>
+              <td><span class="badge badge-red">NE ❌ (Čl. 2(5))</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INCOMING QUERIES -->
+<section class="section section-dark">
+  <div class="container">
+    <div class="two-col">
+      <div class="content-block" data-reveal="left">
+        <h2>🔽 A) Upiti stranih tijela prema HR Gate-u</h2>
+        
+        <p>Kada strano tijelo (npr. DE inspektor) traži podatke s platforme certificirane u HR:</p>
+        
+        <div class="flow-container" style="padding: 1.5rem; margin: 1rem 0;">
+          <div class="flow-row" style="font-size: 0.85rem; gap: 8px;">
+            <div class="flow-node" style="padding: 10px; min-width: auto;">
+              <div class="node-label">🇩🇪 DE</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node" style="padding: 10px; min-width: auto;">
+              <div class="node-label">🇩🇪 DE Gate</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node" style="padding: 10px; min-width: auto;">
+              <div class="node-label">🇭🇷 HR Gate</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node" style="padding: 10px; min-width: auto;">
+              <div class="node-label">📦 HR platf.</div>
+            </div>
+          </div>
+        </div>
+
+        <p>HR Gate pri tome <strong>obvezno logira</strong> (Čl. 6(2)(c,g)): ID zahtjeva, ID Gatea (DE), UIL, timestamp, rezultat, trajanje.</p>
+
+        <div class="highlight-box">
+          <p><strong>Uvodna izjava 8</strong> eksplicitno dopušta: <em>"...for monitoring or statistical purposes."</em></p>
+        </div>
+      </div>
+
+      <div class="content-block" data-reveal="right">
+        <h2>📊 KPI iz dolaznih upita</h2>
+        
+        <div class="table-wrapper">
+          <table class="table-styled">
+            <thead>
+              <tr>
+                <th>KPI</th>
+                <th>Primjer</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Broj upita po državi</td>
+                <td>"DE nas pita 500×/mj, AT 300×/mj"</td>
+              </tr>
+              <tr>
+                <td>DG udio u upitima</td>
+                <td>"35% dolaznih tiče se DG pošiljki"</td>
+              </tr>
+              <tr>
+                <td>Prosj. vrijeme odgovora</td>
+                <td>"HR platforma avg: 1.8s"</td>
+              </tr>
+              <tr>
+                <td>Peak sati / sezone</td>
+                <td>"Najviše Q2, 08-12h"</td>
+              </tr>
+              <tr>
+                <td>Timeout rate</td>
+                <td>"2.1% upita >60s"</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOREIGN DATA -->
+<section class="section">
+  <div class="container">
+    <div class="content-block" data-reveal>
+      <h2>🌍 B) Podaci dohvaćeni s platformi drugih članica</h2>
+      
+      <p>Kada HR inspektor legitimno provjeri kamion i dohvati eFTI podatke s DE platforme — HR AAP <strong>obvezno arhivira cijeli odgovor</strong> (Čl. 4(2)(g)), uključujući pune eFTI podatke.</p>
+
+      <div class="flow-container flow-animated" style="margin: 2rem 0;">
+        <div class="flow-row">
+          <div class="flow-node">
+            <div class="node-icon">👮</div>
+            <div class="node-label">HR inspektor</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">
+            <div class="node-icon">🔐</div>
+            <div class="node-label">HR AAP</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">
+            <div class="node-icon">🌐</div>
+            <div class="node-label">HR Gate</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">
+            <div class="node-icon">🇩🇪</div>
+            <div class="node-label">DE Gate</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">
+            <div class="node-icon">📦</div>
+            <div class="node-label">DE platforma</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Pravna osnova za analitiku stranih podataka:</h3>
+      <ol>
+        <li><strong>Čl. 4(2)(g)</strong> — podaci su legitimno u HR AAP arhivi (dohvaćeni za nadzor)</li>
+        <li><strong>GDPR Čl. 5(1)(b)</strong> — daljnja statistička obrada nije nekompatibilna s izvornom svrhom</li>
+        <li><strong>GDPR Čl. 89(1)</strong> — statistička obrada dopuštena uz pseudonimizaciju</li>
+      </ol>
+
+      <h3>Primjeri legitimne analitike na stranim podacima:</h3>
+      <div class="table-wrapper">
+        <table class="table-styled">
+          <thead>
+            <tr>
+              <th>KPI</th>
+              <th>Izvor</th>
+              <th>Primjer</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Top UN tvari u tranzitu</td>
+              <td>AAP arhiva (strani eFTI)</td>
+              <td>"UN 1203 (benzin) = 28% DG tranzita"</td>
+            </tr>
+            <tr>
+              <td>DG tranzitni koridor trend</td>
+              <td>AAP arhiva (strani eFTI)</td>
+              <td>"DE→HR DG promet +12% YoY"</td>
+            </tr>
+            <tr>
+              <td>Udio nesukladnosti po državi</td>
+              <td>AAP arhiva + nadzor</td>
+              <td>"SI pošiljke: 4.2% nesukladno"</td>
+            </tr>
+            <tr>
+              <td>Prijevoznici s ponavljajućim prekršajima</td>
+              <td>AAP (pseudonimizirano)</td>
+              <td>"3 prijevoznika s >5 prekršaja/god"</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPLEMENTATION MODEL -->
+<section class="section section-dark">
+  <div class="container">
+    <div class="content-block" data-reveal>
+      <h2>🏗️ Implementacijski model za AFFINIS</h2>
+
+      <div class="arch-diagram">
+        <div class="arch-layer" style="border-color: rgba(16, 185, 129, 0.3);">
+          <div class="arch-layer-label" style="color: #34d399;">Legitimni izvori</div>
+          <div class="arch-nodes">
+            <div class="arch-node">
+              <div class="node-emoji">🗄️</div>
+              <div class="node-name">HR AAP arhiva</div>
+              <div class="node-ref">Puni eFTI odgovori + rezultati nadzora</div>
+            </div>
+            <div class="arch-node">
+              <div class="node-emoji">📚</div>
+              <div class="node-name">RoI metapodaci</div>
+              <div class="node-ref">eFTI1451, UIL statistika</div>
+            </div>
+            <div class="arch-node">
+              <div class="node-emoji">📝</div>
+              <div class="node-name">Audit logovi</div>
+              <div class="node-ref">AAP + Gate logovi</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="arch-connector"><span>⬇ Batch T+1 (CDC/REST) ⬇</span></div>
+
+        <div class="arch-layer" style="border-color: rgba(139, 92, 246, 0.3);">
+          <div class="arch-layer-label" style="color: #a78bfa;">AFFINIS DWH</div>
+          <div class="arch-nodes">
+            <div class="arch-node" style="flex: 2; max-width: 500px;">
+              <div class="node-emoji">📊</div>
+              <div class="node-name">AFFINIS DWH (pseudonimizirano)</div>
+              <div class="node-ref">Statistika nadzora • DG analitika • Trend analize • KPI dashboards</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem; padding: 1.5rem; background: rgba(239, 68, 68, 0.08); border-radius: 12px; border: 1px dashed rgba(239, 68, 68, 0.3);">
+          <p style="color: #f87171; font-weight: 700; margin-bottom: 0.5rem;">❌ ZABRANJENI TOK</p>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0;">AFFINIS → HR Gate → strane platforme → bulk pull za analitiku (Čl. 2(5))</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MANDATORY CONDITIONS -->
+<section class="section">
+  <div class="container">
+    <div class="content-block" data-reveal>
+      <h2>📋 Obvezni uvjeti za analitičku obradu</h2>
+      
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon purple">🔒</div>
+          <h3>1. Pseudonimizacija</h3>
+          <p>Osobni podaci (vozač, pošiljatelj, primatelj) moraju biti pseudonimizirani — GDPR Čl. 89.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon blue">📜</div>
+          <h3>2. Pravna osnova</h3>
+          <p>Dokumentirati da su podaci izvorno dohvaćeni za legitimni nadzor.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon orange">📅</div>
+          <h3>3. Retencija</h3>
+          <p>Poštivati minimalne i maksimalne rokove čuvanja podataka.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon green">🚫</div>
+          <h3>4. Pristup</h3>
+          <p>Analitičar NEMA pristup nepseudonimiziranim podacima.</p>
+        </div>
+      </div>
+
+      <div class="highlight-box" style="margin-top: 2rem;">
+        <p><strong>GDPR Čl. 5(1)(b):</strong> <em>"further processing for... statistical purposes shall... not be considered to be incompatible with the initial purposes"</em></p>
+      </div>
+
+      <div class="highlight-box" style="margin-top: 1rem;">
+        <p><strong>GDPR Čl. 89(1):</strong> Obrada u statističke svrhe dopuštena uz odgovarajuće zaštitne mjere, uključujući pseudonimizaciju.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-content">
+    <p><strong>eFTI Referentna Arhitektura</strong> — Analitika (AFFINIS)</p>
+    <div class="legal-refs">
+      <span class="legal-ref">Čl. 2(5) — Ograničenje svrhe</span>
+      <span class="legal-ref">Čl. 4(2)(f–g) — AAP arhiva</span>
+      <span class="legal-ref">GDPR Čl. 89 — Statistika</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

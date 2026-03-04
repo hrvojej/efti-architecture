@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DG Dataset — eFTI Arhitektura</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-content">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">🇪🇺</div>
+      <span>eFTI Arhitektura</span>
+    </a>
+    <button class="mobile-toggle" aria-label="Menu">☰</button>
+    <ul class="nav-links">
+      <li><a href="index.html">Pregled</a></li>
+      <li><a href="components.html">Komponente</a></li>
+      <li><a href="protocols.html">Protokoli</a></li>
+      <li><a href="eadr.html">eADR Sustav</a></li>
+      <li><a href="analytics.html">Analitika</a></li>
+      <li><a href="inspection.html">Nadzor</a></li>
+      <li><a href="dg-dataset.html" class="active">DG Dataset</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="hero-bg"></div>
+  <div class="page-hero-content">
+    <div class="breadcrumb">
+      <a href="index.html">Početna</a> / <span>DG Dataset</span>
+    </div>
+    <h1>Proces kreiranja DG dataseta na eFTI platformi</h1>
+    <p>ADR lanac odgovornosti, tri faze procesa — od klasifikacije opasne tvari do dostupnosti podataka na eFTI Gate mreži, i selective pull mehanizam.</p>
+  </div>
+</section>
+
+<!-- ADR CHAIN OF RESPONSIBILITY -->
+<section class="section">
+  <div class="container">
+    <div class="content-block" data-reveal>
+      <h2>⚖️ ADR lanac odgovornosti (poglavlje 1.4)</h2>
+      
+      <p>Prema ADR sporazumu (UNECE), obveze pri prijevozu opasnih tvari raspoređene su među sudionicima.</p>
+
+      <div class="highlight-box warning">
+        <p><strong>KLJUČNI ZAKLJUČAK:</strong> ADR compliance je operativna odgovornost sudionika u lancu (pošiljatelj, prijevoznik, vozač, utovarivač) — NE eFTI platforme. eFTI platforma <strong>evidentira</strong> regulatorne informacije, a ne <strong>provjerava</strong> ih operativno.</p>
+      </div>
+
+      <div class="card-grid" style="margin-top: 2rem;" data-reveal>
+        <div class="card">
+          <div class="card-icon orange">📦</div>
+          <h3>Pošiljatelj (Consignor)</h3>
+          <p style="font-size: 0.85rem;">ADR 1.4.2.1</p>
+          <ul style="font-size: 0.85rem; color: var(--text-secondary); padding-left: 1rem;">
+            <li>Klasificira opasnu tvar (ADR Dio 2)</li>
+            <li>Osigurava ispravno pakiranje (ADR Dio 4)</li>
+            <li>Osigurava označavanje i etiketiranje (ADR Dio 5)</li>
+            <li>Priprema DG deklaraciju (ADR 5.4.1)</li>
+            <li>Odabire samo ODOBRENA vozila i CERTIFICIRANE vozače</li>
+            <li>Predaje dokumentaciju vozaču PRIJE utovara</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-icon blue">🚛</div>
+          <h3>Prijevoznik (Carrier)</h3>
+          <p style="font-size: 0.85rem;">ADR 1.4.2.2</p>
+          <ul style="font-size: 0.85rem; color: var(--text-secondary); padding-left: 1rem;">
+            <li>Provjerava VALJANO ADR odobrenje vozila</li>
+            <li>Provjerava VALJANU ADR potvrdu vozača za klasu</li>
+            <li>Provjerava propisanu ADR opremu na vozilu</li>
+            <li>Provjerava potpunost dokumenata</li>
+            <li>NE prevozi ako uvjeti NISU ispunjeni</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-icon green">👤</div>
+          <h3>Vozač (Driver)</h3>
+          <p style="font-size: 0.85rem;">ADR 8.2</p>
+          <ul style="font-size: 0.85rem; color: var(--text-secondary); padding-left: 1rem;">
+            <li>Posjeduje valjanu ADR potvrdu osposobljenosti</li>
+            <li>Nosi je pri sebi tijekom prijevoza</li>
+            <li>Poštuje pravila utovara/istovara/rukovanja</li>
+            <li>Poznaje postupke u hitnim situacijama</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-icon purple">📥</div>
+          <h3>Utovarivač (Loader)</h3>
+          <p style="font-size: 0.85rem;">ADR 1.4.3.1</p>
+          <ul style="font-size: 0.85rem; color: var(--text-secondary); padding-left: 1rem;">
+            <li>Provjerava integritet pakiranja</li>
+            <li>Provjerava ADR plakatiranje i oznake</li>
+            <li>Provjerava kompatibilnost tereta (mixed loading)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 PHASES -->
+<section class="section section-dark">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <div class="section-label">📋 Tri faze procesa</div>
+      <h2 class="section-title">Kreiranje DG dataseta — korak po korak</h2>
+    </div>
+
+    <!-- PHASE 1 -->
+    <div class="content-block" data-reveal>
+      <h2>Faza 1 — Klasifikacija i priprema</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Pošiljatelj, PRIJE eFTI unosa</p>
+
+      <div class="timeline">
+        <div class="timeline-step">
+          <div class="timeline-marker">1</div>
+          <div class="timeline-content">
+            <h3>Klasifikacija tvari (ADR Dio 2)</h3>
+            <div class="code-block">
+UN broj:              1203 (Benzin)
+ADR razred:           3 (Zapaljive tekućine)
+Klasifikacijski kod:  F1
+Ambalaža skupina:     II (srednja opasnost)
+Proper Shipping Name: "PETROL" / "BENZIN"
+            </div>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">2</div>
+          <div class="timeline-content">
+            <h3>Određivanje pakiranja (ADR Dio 4)</h3>
+            <p>Tip pakovanja (IBC, bačva, cisterna...), količina i mjerna jedinica, bruto/neto masa.</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">3</div>
+          <div class="timeline-content">
+            <h3>Priprema transportnog dokumenta (ADR 5.4.1)</h3>
+            <p>DG deklaracija s obveznim sadržajem: UN broj + proper shipping name + ADR razred, ambalaža skupina, tunnel restriction code, broj/opis pakiranja, ukupna količina, podaci pošiljatelja/primatelja, izjava o sukladnosti.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div class="content-block" data-reveal style="margin-top: 3rem;">
+      <h2>Faza 2 — Unos na eFTI platformu</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Gospodarski subjekt (logistički operater/prijevoznik)</p>
+
+      <div class="timeline">
+        <div class="timeline-step">
+          <div class="timeline-marker">4</div>
+          <div class="timeline-content">
+            <h3>Prijava na certificiranu eFTI platformu</h3>
+            <p>Gospodarski subjekt se prijavljuje na platformu certificiranu u državi članici.</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">5</div>
+          <div class="timeline-content">
+            <h3>Unos podataka o pošiljci (consignment)</h3>
+            <p>Pošiljatelj (ime, adresa, ID), primatelj, carrier/prijevoznik, ruta (polazište, odredište, tranzitne zemlje).</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">6</div>
+          <div class="timeline-content">
+            <h3>Unos DG stavki</h3>
+            <div class="code-block">
+UN broj:               1203
+Proper shipping name:  PETROL
+ADR razred:            3
+Klasifikacijski kod:   F1
+Ambalaža skupina:      II
+Pakiranje:             IBC, 24.000 litara
+Tunnel restriction:    D/E
+Transport category:    2
+            </div>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">7</div>
+          <div class="timeline-content">
+            <h3>Unos podataka o prijevozu</h3>
+            <p>Vozilo (reg. oznaka, VIN), vozač (ime, ADR potvrda br.), ADR oprema na vozilu, planirani legovi.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 3 -->
+    <div class="content-block" data-reveal style="margin-top: 3rem;">
+      <h2>Faza 3 — Validacija i UIL registracija</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem;">eFTI platforma, automatski</p>
+
+      <div class="timeline">
+        <div class="timeline-step">
+          <div class="timeline-marker">8</div>
+          <div class="timeline-content">
+            <h3>Platforma validira podatke (FORMAT)</h3>
+            <div class="two-col" style="gap: 16px; margin-top: 1rem;">
+              <div>
+                <h4 style="font-size: 0.9rem; color: var(--success);">✅ Platforma VALIDIRA:</h4>
+                <ul style="font-size: 0.85rem;">
+                  <li>Format UN broja (4 znamenke, 0001-3600)</li>
+                  <li>ADR razred postoji</li>
+                  <li>Ambalaža skupina odgovara UN broju</li>
+                  <li>Tunnel restriction code (A/B/C/D/E)</li>
+                  <li>Obvezna polja popunjena</li>
+                  <li>eFTI1451 = true (jer postoji DG stavka)</li>
+                </ul>
+              </div>
+              <div>
+                <h4 style="font-size: 0.9rem; color: var(--danger);">⚠️ Platforma NE validira:</h4>
+                <ul style="font-size: 0.85rem;">
+                  <li>Ima li vozač stvarno valjanu ADR potvrdu</li>
+                  <li>Ima li vozilo stvarno ADR odobrenje</li>
+                  <li>Ima li prijevoznik dopuštenje za klasu</li>
+                </ul>
+                <div class="highlight-box danger" style="padding: 1rem; margin-top: 0.5rem;">
+                  <p style="font-size: 0.8rem; margin: 0;">Platforma nema pristup nacionalnim registrima! Te provjere rade pošiljatelj/prijevoznik + eADR pri nadzoru.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">9</div>
+          <div class="timeline-content">
+            <h3>Generiranje UIL-a</h3>
+            <div class="code-block">
+UIL = gate_identifier + platform_identifier + UUID
+Primjer: "DE-GATE-01.DE-PLAT-0042.a7b3c9d1-..."
+            </div>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">10</div>
+          <div class="timeline-content">
+            <h3>Upload u RoI matičnog Gatea (Čl. 11)</h3>
+            <div class="tag-group">
+              <span class="tag">UIL</span>
+              <span class="tag green">Reg. oznaka vozila</span>
+              <span class="tag purple">ID prijevoznika</span>
+              <span class="tag orange">eFTI1451 = true</span>
+              <span class="tag">Status: ACTIVE</span>
+            </div>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">11</div>
+          <div class="timeline-content">
+            <h3>Podaci dostupni za dohvat</h3>
+            <p>Dataset je sada dostupan za dohvat kroz eFTI Gate mrežu — bilo koji Gate može pronaći UIL i dohvatiti podatke.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DG DATA SUBSET -->
+<section class="section">
+  <div class="container">
+    <div class="content-block" data-reveal>
+      <h2>☣️ DG podskup podataka (Dangerous Goods subset)</h2>
+      <p>Prema Delegiranoj uredbi (EU) 2024/2024 — elementi specifični za opasne tvari koje eADR dohvaća putem selective pull mehanizma.</p>
+
+      <div class="table-wrapper">
+        <table class="table-styled">
+          <thead>
+            <tr>
+              <th>eFTI element</th>
+              <th>ADR referenca</th>
+              <th>Opis</th>
+              <th>Primjer</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>eFTI1451</strong></td>
+              <td>ADR 3.5.6, 5.4.1, 5.5.2</td>
+              <td><span class="badge badge-red">Indikator opasnih tvari</span></td>
+              <td><code>true</code></td>
+            </tr>
+            <tr>
+              <td>UN broj</td>
+              <td>ADR 5.4.1.1.1(a)</td>
+              <td>Četveroznamenkasti identifikator</td>
+              <td><code>1203</code></td>
+            </tr>
+            <tr>
+              <td>Proper Shipping Name</td>
+              <td>ADR 5.4.1.1.1(b)</td>
+              <td>Službeni naziv tvari</td>
+              <td>PETROL</td>
+            </tr>
+            <tr>
+              <td>ADR razred</td>
+              <td>ADR 5.4.1.1.1(c)</td>
+              <td>Klasa opasnosti</td>
+              <td><code>3</code></td>
+            </tr>
+            <tr>
+              <td>Klasifikacijski kod</td>
+              <td>ADR 5.4.1.1.1(d)</td>
+              <td>Podkategorija unutar klase</td>
+              <td><code>F1</code></td>
+            </tr>
+            <tr>
+              <td>Ambalaža skupina</td>
+              <td>ADR 5.4.1.1.1(e)</td>
+              <td>I (visoka), II (srednja), III (niska)</td>
+              <td><code>II</code></td>
+            </tr>
+            <tr>
+              <td>Tip pakovanja</td>
+              <td>ADR 5.4.1.1.1(f)</td>
+              <td>Način pakiranja</td>
+              <td>IBC</td>
+            </tr>
+            <tr>
+              <td>Količina</td>
+              <td>ADR 5.4.1.1.1(f)</td>
+              <td>Masa/volumen po stavci</td>
+              <td>24.000 L</td>
+            </tr>
+            <tr>
+              <td>Tunnel restriction</td>
+              <td>ADR 8.6.4</td>
+              <td>Kod ograničenja za tunele</td>
+              <td><code>D/E</code></td>
+            </tr>
+            <tr>
+              <td>Transport kategorija</td>
+              <td>ADR 1.1.3.6</td>
+              <td>Za količinska izuzeća</td>
+              <td><code>2</code></td>
+            </tr>
+            <tr>
+              <td>Posebne odredbe</td>
+              <td>ADR 3.3</td>
+              <td>Kodovi posebnih odredbi</td>
+              <td><code>640D</code></td>
+            </tr>
+            <tr>
+              <td>Plakatiranje</td>
+              <td>ADR 5.3</td>
+              <td>Oznake na vozilu/kontejneru</td>
+              <td>naranč. ploča 33/1203</td>
+            </tr>
+            <tr>
+              <td>Ukupna masa/volumen</td>
+              <td>ADR 5.4.1.1.1(f)</td>
+              <td>Zbirno po pošiljci</td>
+              <td>18.400 kg</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SELECTIVE PULL SCENARIO -->
+<section class="section section-dark">
+  <div class="container">
+    <div class="content-block" data-reveal>
+      <h2>🔄 Selective pull — scenarij dohvata</h2>
+      <p style="color: var(--text-muted); margin-bottom: 2rem;">HR inspektor zaustavlja cisternsko vozilo s DE registarskim oznakama</p>
+
+      <div class="timeline">
+        <div class="timeline-step">
+          <div class="timeline-marker">1</div>
+          <div class="timeline-content">
+            <h3>Identifikacija</h3>
+            <p>Inspektor unosi: <strong>DE-MH-4521</strong>. eADR pretražuje HR registre → vozilo NIJE u HR registru → strani ADR prijevoznik.</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">2</div>
+          <div class="timeline-content">
+            <h3>eFTI pretraga (Procedura B)</h3>
+            <p>eADR → HR AAP → HR Gate → Search Mechanism pretražuje po reg. oznaci "DE-MH-4521" → HR RoI nema rezultata → <strong>prosljeđuje na SVE ostale Gateove</strong> (Čl. 8(4)).</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">3</div>
+          <div class="timeline-content">
+            <h3>Pronalaženje na DE Gate</h3>
+            <p>DE Gate pretražuje DE RoI → <strong>PRONAĐENO:</strong></p>
+            <div class="code-block">
+UIL: DE-GATE-01.DE-PLAT-0042.a7b3c9d1-...
+eFTI1451: true (opasne tvari)
+Reg. oznaka: DE-MH-4521
+            </div>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">4</div>
+          <div class="timeline-content">
+            <h3>Selective pull — DG podskup</h3>
+            <p>HR Gate → DE Gate → DE platforma. Zahtjev: "Daj mi DG podskup za UIL a7b3c9d1-..." (Čl. 3 — prava pristupa: DG subset).</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">5</div>
+          <div class="timeline-content">
+            <h3>Odgovor — DG dataset</h3>
+            <div class="code-block">
+Pošiljka: CONSIGNMENT-DE-2026-8834
+Pošiljatelj: ChemieTrans GmbH, Hamburg
+Primatelj:   Petrokemija d.d., Kutina
+Ruta:        DE (Hamburg) → AT → SI → HR (Kutina)
+
+DG stavka 1:
+  UN: 1203 | Naziv: PETROL | Razred: 3
+  Klasif.kod: F1 | PG: II | Pakiranje: CISTERNA
+  Količina: 24.000 L | Tunnel: D/E
+  Transport kat.: 2
+
+Vozilo: DE-MH-4521 (cisterna)
+Vozač:  Max Müller | ADR potvrda: DE-ADR-2024-1234
+Prijevoznik: SpedTrans DE GmbH
+            </div>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">6</div>
+          <div class="timeline-content">
+            <h3>Cross-validacija</h3>
+            
+            <div class="highlight-box warning">
+              <p><strong>⚠️ Zašto i fizičke provjere?</strong> Podaci u koraku 5 (vozač, ADR potvrda, vozilo) su <strong>SELF-DECLARED</strong> — to je ono što je prijevoznik SAM upisao na eFTI platformu. Broj "DE-ADR-2024-1234" = TVRDNJA prijevoznika, NE potvrda iz njemačkog registra.</p>
+            </div>
+
+            <div class="two-col" style="gap: 16px; margin-top: 1rem;">
+              <div class="card" style="padding: 1.5rem;">
+                <h4 style="color: var(--warning);">🇩🇪 Strani prijevoznik</h4>
+                <p style="font-size: 0.85rem;">Inspektor FIZIČKI verificira:</p>
+                <ul style="font-size: 0.85rem; padding-left: 1rem;">
+                  <li>Plastična ADR potvrda vozača: pokriva klasu 3?</li>
+                  <li>Fizički ADR certifikat vozila: cisterna za klasu 3?</li>
+                  <li>Oznake: naranč. ploča 33/1203?</li>
+                  <li>ADR oprema prisutna?</li>
+                </ul>
+              </div>
+              <div class="card" style="padding: 1.5rem;">
+                <h4 style="color: var(--success);">🇭🇷 Hrvatski prijevoznik</h4>
+                <p style="font-size: 0.85rem;">eADR ELEKTRONIČKI provjerava:</p>
+                <ul style="font-size: 0.85rem; padding-left: 1rem;">
+                  <li>Registar ADR vozača: potvrda za klasu? ✓/✗</li>
+                  <li>Registar ADR vozila: odobrenje za klasu? ✓/✗</li>
+                  <li>Registar dopuštenja: aktivno za UN 1203? ✓/✗</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-content">
+    <p><strong>eFTI Referentna Arhitektura</strong> — DG Dataset</p>
+    <div class="legal-refs">
+      <span class="legal-ref">Delegirana (EU) 2024/2024</span>
+      <span class="legal-ref">ADR (UNECE) poglavlje 1.4</span>
+      <span class="legal-ref">eFTI1451 DG indikator</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

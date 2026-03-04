@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cestovni nadzor — eFTI Arhitektura</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-content">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">🇪🇺</div>
+      <span>eFTI Arhitektura</span>
+    </a>
+    <button class="mobile-toggle" aria-label="Menu">☰</button>
+    <ul class="nav-links">
+      <li><a href="index.html">Pregled</a></li>
+      <li><a href="components.html">Komponente</a></li>
+      <li><a href="protocols.html">Protokoli</a></li>
+      <li><a href="eadr.html">eADR Sustav</a></li>
+      <li><a href="analytics.html">Analitika</a></li>
+      <li><a href="inspection.html" class="active">Nadzor</a></li>
+      <li><a href="dg-dataset.html">DG Dataset</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="hero-bg"></div>
+  <div class="page-hero-content">
+    <div class="breadcrumb">
+      <a href="index.html">Početna</a> / <span>Cestovni nadzor</span>
+    </div>
+    <h1>Tok podataka pri cestovnom nadzoru</h1>
+    <p>Integrirani prikaz kompletnog operativnog scenarija — 9 koraka od autentikacije inspektora do AFFINIS exporta. Demonstrira komunikaciju svih komponenti sustava.</p>
+  </div>
+</section>
+
+<!-- STEP 1 -->
+<section class="section">
+  <div class="container">
+    <div class="timeline" data-reveal>
+      
+      <div class="timeline-step">
+        <div class="timeline-marker">1</div>
+        <div class="timeline-content">
+          <h3>🔐 Autentikacija — NIAS Login</h3>
+          <p>Inspektor se prijavljuje putem NIAS sustava (SAML 2.0 / OAuth 2.0). Dobiva ulogu <code>ROLE_INSPECTOR</code> s odgovarajućim ovlastima iz Authorisation Registry-ja.</p>
+          <div class="tag-group">
+            <span class="tag">NIAS</span>
+            <span class="tag green">SAML 2.0</span>
+            <span class="tag">X.509</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="timeline-step">
+        <div class="timeline-marker">2</div>
+        <div class="timeline-content">
+          <h3>🔍 Identifikacija — Registarska oznaka</h3>
+          <p>Inspektor unosi registarsku oznaku zaustavljenog vozila (npr. <strong>ZG-7823-KD</strong>). Sustav pokreće pretragu u svim relevantnim registrima.</p>
+          <div class="tag-group">
+            <span class="tag">Reg. oznaka</span>
+            <span class="tag purple">VIN opcija</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="timeline-step">
+        <div class="timeline-marker">3</div>
+        <div class="timeline-content">
+          <h3>📋 Provjera 8 nacionalnih registara</h3>
+          <p>eADR automatski pretražuje svih 8 registara:</p>
+          <div class="card-grid" style="margin-top: 1rem; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));">
+            <div class="card" style="padding: 1rem;">
+              <p style="margin: 0; font-size: 0.85rem;">🚛 <strong>1. ADR vozila</strong> (~3.000 registriranih)</p>
+              <p style="margin: 0.3rem 0 0; font-size: 0.8rem; color: var(--text-muted);">ADR odobrenje vozila — tip, klasa, valjanost</p>
+            </div>
+            <div class="card" style="padding: 1rem;">
+              <p style="margin: 0; font-size: 0.85rem;">👤 <strong>2. ADR vozači</strong> (ADR potvrde)</p>
+              <p style="margin: 0.3rem 0 0; font-size: 0.8rem; color: var(--text-muted);">Potvrde osposobljenosti — klasa, valjanost (5-god. ciklus)</p>
+            </div>
+            <div class="card" style="padding: 1rem;">
+              <p style="margin: 0; font-size: 0.85rem;">🛡️ <strong>3. Sigurnosni savjetnici</strong></p>
+              <p style="margin: 0.3rem 0 0; font-size: 0.8rem; color: var(--text-muted);">Imenovani savjetnici za sigurnost prijevoza opasnih tvari</p>
+            </div>
+            <div class="card" style="padding: 1rem;">
+              <p style="margin: 0; font-size: 0.85rem;">🏫 <strong>4. Učilišta</strong> (ovlaštena)</p>
+              <p style="margin: 0.3rem 0 0; font-size: 0.8rem; color: var(--text-muted);">Ovlaštene ustanove za ADR osposobljavanje</p>
+            </div>
+            <div class="card" style="padding: 1rem;">
+              <p style="margin: 0; font-size: 0.85rem;">🏁 <strong>5. Ispitni centri</strong> (HAK)</p>
+              <p style="margin: 0.3rem 0 0; font-size: 0.8rem; color: var(--text-muted);">Centri za polaganje ADR ispita</p>
+            </div>
+            <div class="card" style="padding: 1rem;">
+              <p style="margin: 0; font-size: 0.85rem;">📜 <strong>6. Dopuštenja</strong> (klasa 1/7/posp.)</p>
+              <p style="margin: 0.3rem 0 0; font-size: 0.8rem; color: var(--text-muted);">Dopuštenja za prijevoz eksploziva, radioaktivnih tvari i posebnih kategorija</p>
+            </div>
+            <div class="card" style="padding: 1rem;">
+              <p style="margin: 0; font-size: 0.85rem;">🏢 <strong>7. Prijevoznici</strong> (dij. Taho/NSCP)</p>
+              <p style="margin: 0.3rem 0 0; font-size: 0.8rem; color: var(--text-muted);">Registrirani ADR prijevoznici — dijeljeno s Tahografskom i NSCP bazom</p>
+            </div>
+            <div class="card" style="padding: 1rem;">
+              <p style="margin: 0; font-size: 0.85rem;">📝 <strong>8. Nadzori</strong> (pregledi/mjere)</p>
+              <p style="margin: 0.3rem 0 0; font-size: 0.8rem; color: var(--text-muted);">Evidencija obavljenih cestovnih nadzora, mjera i ishoda</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="timeline-step">
+        <div class="timeline-marker">4</div>
+        <div class="timeline-content">
+          <h3>⏱️ Affinis dohvat — Tahografski podaci (T+1)</h3>
+          <p>eADR dohvaća iz AFFINIS DWH putem REST API-ja tahografski sažetak (T+1 batch iz SOTAH-a):</p>
+          <div class="code-block">
+Vožnja danas: 7h 30min*
+Odmor: 1h
+Prekoračenje: NE
+
+*Napomena: T+1 latencija — jučerašnji podaci, ne real-time
+          </div>
+          <div class="highlight-box warning" style="margin-top: 1rem;">
+            <p><strong>⚠️ Napomena:</strong> eADR NE koristi SOTAH direktno — koristi Affinis DWH (T+1 batch). Podaci mogu kasniti do 24h.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="timeline-step">
+        <div class="timeline-marker">5</div>
+        <div class="timeline-content">
+          <h3>🔧 Fizički pregled</h3>
+          <p>Inspektor fizički provjerava ADR usklađenost vozila:</p>
+          <ul style="font-size: 0.9rem;">
+            <li>ADR oznake na vozilu (naranč. ploče, plakatiranje) ✓</li>
+            <li>ADR oprema (vatrogasni aparati, zaštitna odjeća) ✓</li>
+            <li>Pakiranje i označavanje tereta ✓</li>
+            <li>Fizički dokumenti (transportni dokument, DG deklaracija) ✓</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="timeline-step">
+        <div class="timeline-marker">6</div>
+        <div class="timeline-content">
+          <h3>🌐 eFTI dohvat — Prekogranični podatci</h3>
+          <p>eADR šalje zahtjev putem eFTI Gate mreže za DG podskup podataka:</p>
+          <div class="flow-container flow-animated" style="padding: 1.5rem; margin: 1rem 0;">
+            <div class="flow-row" style="font-size: 0.85rem; gap: 8px;">
+              <div class="flow-node" style="padding: 10px; min-width: auto;">
+                <div class="node-label">eADR</div>
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node" style="padding: 10px; min-width: auto;">
+                <div class="node-label">HR Gate</div>
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node" style="padding: 10px; min-width: auto;">
+                <div class="node-label">Search</div>
+                <div class="node-sub" style="font-size: 0.7rem;">HR RoI: ∅</div>
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node" style="padding: 10px; min-width: auto;">
+                <div class="node-label">🇩🇪 DE Gate</div>
+                <div class="node-sub" style="font-size: 0.7rem;">UIL ✓</div>
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node" style="padding: 10px; min-width: auto;">
+                <div class="node-label">DE platf.</div>
+              </div>
+            </div>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">DG podskup podataka vraćen: UN broj, klasa, proper shipping name, količina, pakiranje, tunnel restriction...</p>
+        </div>
+      </div>
+      
+      <div class="timeline-step">
+        <div class="timeline-marker">7</div>
+        <div class="timeline-content">
+          <h3>✅ Cross-validacija — eFTI vs. Registri</h3>
+          <p>eADR uspoređuje podatke dohvaćene s eFTI platforme s podatcima u nacionalnim registrima:</p>
+          
+          <div class="two-col" style="margin-top: 1rem; gap: 16px;">
+            <div>
+              <h4 style="font-size: 0.9rem; color: var(--accent-light); margin-bottom: 0.5rem;">eFTI kaže:</h4>
+              <div class="code-block" style="font-size: 0.8rem;">
+Klasa 3, UN 1203 (benzin)
+Cisterna, 24.000 L
+Tunnel: D/E
+              </div>
+            </div>
+            <div>
+              <h4 style="font-size: 0.9rem; color: var(--success); margin-bottom: 0.5rem;">eADR registar kaže:</h4>
+              <div class="code-block" style="font-size: 0.8rem;">
+Vozač: potvrda za klasu 3 ✓
+Vozilo: odobreno za klasu 3 ✓
+Dopuštenje pokriva UN 1203 ✓
+              </div>
+            </div>
+          </div>
+
+          <div class="highlight-box warning" style="margin-top: 1rem;">
+            <p><strong>⚠️ Za strane prijevoznike:</strong> eADR NEMA pristup stranim nacionalnim registrima (DE, AT...). Podaci iz eFTI odgovora su <strong>self-declared</strong> — inspektor mora FIZIČKI verificirati ADR potvrdu i certifikat vozila.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="timeline-step">
+        <div class="timeline-marker">8</div>
+        <div class="timeline-content">
+          <h3>📝 Ishod i mjere</h3>
+          <p>Inspektor bilježi ishod nadzora:</p>
+          <div class="two-col" style="gap: 16px; margin-top: 1rem;">
+            <div class="card" style="padding: 1.5rem; border-color: rgba(16, 185, 129, 0.3);">
+              <h4 style="color: var(--success);">✅ Sukladno</h4>
+              <p style="font-size: 0.85rem;">Svi ADR uvjeti ispunjeni — vozilo nastavlja vožnju. Zapis se pohranjuje.</p>
+            </div>
+            <div class="card" style="padding: 1.5rem; border-color: rgba(239, 68, 68, 0.3);">
+              <h4 style="color: var(--danger);">❌ Nesukladno</h4>
+              <p style="font-size: 0.85rem;">Mjere: upozorenje, zabrana vožnje, kazna, oduzimanje dozvole... Imutabilan zapis.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="timeline-step">
+        <div class="timeline-marker">9</div>
+        <div class="timeline-content">
+          <h3>📊 AFFINIS Export (T+1 Batch)</h3>
+          <p>Svi podaci iz nadzora eksportiraju se u AFFINIS DWH (batch T+1):</p>
+          <div class="tag-group">
+            <span class="tag">Statistika nadzora</span>
+            <span class="tag purple">DG analitika</span>
+            <span class="tag green">Trend korelacije</span>
+            <span class="tag orange">KPI dashboards</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUMMARY FLOW -->
+<section class="section section-dark">
+  <div class="container">
+    <div class="section-header" data-reveal>
+      <div class="section-label">🔄 End-to-End</div>
+      <h2 class="section-title">Kompletni tok — animirani pregled</h2>
+    </div>
+
+    <div class="flow-container flow-animated" data-reveal>
+      <div class="flow-row">
+        <div class="flow-node">
+          <div class="node-icon">🔐</div>
+          <div class="node-label">1. NIAS</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">
+          <div class="node-icon">🔍</div>
+          <div class="node-label">2. Reg. oznaka</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">
+          <div class="node-icon">📋</div>
+          <div class="node-label">3. Registri</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">
+          <div class="node-icon">⏱️</div>
+          <div class="node-label">4. Taho</div>
+        </div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-node">
+          <div class="node-icon">🔧</div>
+          <div class="node-label">5. Fizički</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">
+          <div class="node-icon">🌐</div>
+          <div class="node-label">6. eFTI</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">
+          <div class="node-icon">✅</div>
+          <div class="node-label">7. Validacija</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">
+          <div class="node-icon">📝</div>
+          <div class="node-label">8. Ishod</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">
+          <div class="node-icon">📊</div>
+          <div class="node-label">9. AFFINIS</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KEY NOTES -->
+<section class="section">
+  <div class="container">
+    <div class="content-block" data-reveal>
+      <h2>📎 Ključne napomene</h2>
+      
+      <div class="highlight-box">
+        <p><strong>Gate NE pohranjuje eFTI podatke:</strong> Stvarni eFTI podaci (CMR, packing list, DG deklaracije) ostaju isključivo na eFTI platformi. Gate pohranjuje samo RoI zapise, revizijske tragove i log poruka.</p>
+      </div>
+      
+      <div class="highlight-box warning" style="margin-top: 1rem;">
+        <p><strong>Self-declared podaci:</strong> Podaci o vozaču/vozilu u eFTI odgovoru su self-declared — upisao ih je pošiljatelj/prijevoznik. eFTI platforma validira FORMAT (UN broj = 4 znamenke), ali NE PROVJERAVA valjanost ADR potvrda jer nema pristup nacionalnim registrima.</p>
+      </div>
+
+      <div class="highlight-box success" style="margin-top: 1rem;">
+        <p><strong>Domaći vs. strani prijevoznik:</strong> Za hrvatskog prijevoznika (OIB) eADR elektronički provjerava registre u realnom vremenu. Za stranog prijevoznika — inspektor FIZIČKI verificira ADR potvrdu (plastična kartica) i certifikat vozila (metalna pločica).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-content">
+    <p><strong>eFTI Referentna Arhitektura</strong> — Cestovni nadzor</p>
+    <div class="legal-refs">
+      <span class="legal-ref">Uredba (EU) 2024/1942</span>
+      <span class="legal-ref">ADR (UNECE) poglavlje 1.4</span>
+      <span class="legal-ref">eADR NPOO C1.4. R1-I5</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5 ICT Komponenti — eFTI Arhitektura</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-content">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">🇪🇺</div>
+      <span>eFTI Arhitektura</span>
+    </a>
+    <button class="mobile-toggle" aria-label="Menu">☰</button>
+    <ul class="nav-links">
+      <li><a href="index.html">Pregled</a></li>
+      <li><a href="components.html" class="active">Komponente</a></li>
+      <li><a href="protocols.html">Protokoli</a></li>
+      <li><a href="eadr.html">eADR Sustav</a></li>
+      <li><a href="analytics.html">Analitika</a></li>
+      <li><a href="inspection.html">Nadzor</a></li>
+      <li><a href="dg-dataset.html">DG Dataset</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="hero-bg"></div>
+  <div class="page-hero-content">
+    <div class="breadcrumb">
+      <a href="index.html">Početna</a> / <span>5 ICT Komponenti</span>
+    </div>
+    <h1>Pet obveznih ICT komponenti</h1>
+    <p>Prema Čl. 2(3) Uredbe 2024/1942 — svaka država članica mora uspostaviti ovih pet komponenti za sudjelovanje u eFTI okruženju.</p>
+  </div>
+</section>
+
+<!-- AAP -->
+<section class="section" id="aap">
+  <div class="container">
+    <div class="content-block" data-reveal>
+      <h2>🔐 (a) Authority Access Point — AAP (Čl. 4)</h2>
+      
+      <div class="highlight-box">
+        <p><strong>Definicija (Čl. 1(1)):</strong> Točka pristupa koju uspostavlja svaka država članica za ovlaštena nadležna tijela.</p>
+      </div>
+
+      <h3>Funkcije (Čl. 4(2))</h3>
+      <ul>
+        <li><strong>Autentificira</strong> ovlaštene službenike</li>
+        <li><strong>Autorizira</strong> zahtjeve — provjerava prava pristupa u Authorisation Registry-ju</li>
+        <li><strong>Evidentira</strong> zahtjeve i odgovore — puni eFTI podaci se arhiviraju</li>
+        <li><strong>Prenosi</strong> zahtjeve na eFTI Gate <strong>iste države članice</strong> (Čl. 4(3))</li>
+        <li><strong>Prima</strong> odgovore od Gatea i prosljeđuje službeniku</li>
+        <li><strong>Vodi revizijski trag</strong> — minimalno <strong>2 godine</strong> čuvanja (Čl. 4(2)(f))</li>
+        <li>Podržava <strong>naknadnu komunikaciju</strong> (follow-up)</li>
+      </ul>
+
+      <h3>AAP kao izvor za analitiku</h3>
+      <p>
+        AAP je obvezan arhivirati svaki zahtjev i svaki primljeni odgovor (uključujući pune eFTI podatke) 
+        minimalno 2 godine (Čl. 4(2)(f–g)). Jednom legitimno dohvaćeni podaci putem nadzora postaju dio 
+        AAP arhive i smiju se dalje obrađivati za statističke svrhe (GDPR Čl. 5(1)(b), Čl. 89).
+      </p>
+
+      <div class="highlight-box success">
+        <p><strong>Za AFFINIS:</strong> AAP arhiva je primarni legitimni izvor punih eFTI podataka za analitički sustav.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTH REGISTRY -->
+<section class="section section-dark" id="auth-registry">
+  <div class="container">
+    <div class="content-block" data-reveal>
+      <h2>📋 (b) Authorisation Registry — Registar ovlaštenja (Čl. 5)</h2>
+      
+      <h3>Funkcije</h3>
+      <ul>
+        <li>Definira <strong>prava pristupa po službeniku</strong> — koji podskupovi podataka, za koje vrste prijevoza</li>
+        <li>Definira <strong>prava obrade</strong> za svaki zahtjev</li>
+        <li>AAP <strong>konzultira registar</strong> pri svakoj autorizaciji</li>
+      </ul>
+
+      <div class="table-wrapper">
+        <table class="table-styled">
+          <thead>
+            <tr>
+              <th>Aspekt</th>
+              <th>Opis</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Granularnost</strong></td>
+              <td>Po službeniku — specifična prava za specifične podatkovne podskupove</td>
+            </tr>
+            <tr>
+              <td><strong>Konzultacija</strong></td>
+              <td>AAP provjerava za svaki pojedini zahtjev</td>
+            </tr>
+            <tr>
+              <td><strong>Održavanje</strong></td>
+              <td>Administrira se centralno za sva nadležna tijela</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- eFTI GATE -->
+<section class="section" id="gate">
+  <div class="container">
+    <div class="content-block" data-reveal>
+      <h2>🌐 (c) eFTI Gate (Čl. 6)</h2>
+      
+      <div class="highlight-box">
+        <p><strong>Definicija (Čl. 1(2)):</strong> Informatička komponenta koja omogućuje razmjenu eFTI informacija između ICT sustava nadležnih tijela i eFTI platformi.</p>
+      </div>
+
+      <h3>Funkcije (Čl. 6(2))</h3>
+      <ul>
+        <li><strong>Validira</strong> dolazne zahtjeve</li>
+        <li><strong>Obrađuje</strong> zahtjeve putem Search Mechanisma</li>
+        <li><strong>Usmjerava</strong> zahtjeve prema:
+          <ul>
+            <li><strong>Lokalnoj platformi</strong> — ako je platforma spojena na taj Gate</li>
+            <li><strong>Drugom eFTI Gateu</strong> (Čl. 6(4)) — ako je platforma spojena na Gate druge države</li>
+          </ul>
+        </li>
+        <li>Vodi <strong>revizijski trag</strong> — minimalno <strong>2 godine</strong> (Čl. 6(2)(e))</li>
+        <li>Podržava <strong>naknadnu komunikaciju</strong></li>
+      </ul>
+
+      <div class="highlight-box danger">
+        <p><strong>KLJUČNO PRAVILO (Uvodna izjava 8):</strong> eFTI Gate NE SMIJE pohranjivati eFTI podatke. 
+        Gate pohranjuje samo metapodatke, identifikatore i logove. Podaci ostaju isključivo na eFTI platformi.</p>
+      </div>
+
+      <h3>Gate pohranjuje samo:</h3>
+      <div class="card-grid card-grid-3">
+        <div class="card">
+          <div class="card-icon purple">📚</div>
+          <h3>RoI zapise</h3>
+          <p>UIL + identifikatori uploadirani od strane platformi spojenih na ovaj Gate</p>
+        </div>
+        <div class="card">
+          <div class="card-icon orange">📝</div>
+          <h3>Revizijske tragove</h3>
+          <p>Tko, kada, što — minimalno 2 godine čuvanja</p>
+        </div>
+        <div class="card">
+          <div class="card-icon blue">📊</div>
+          <h3>Log poruka</h3>
+          <p>Routing, timing, error logovi za monitoring i statistiku</p>
+        </div>
+      </div>
+
+      <div class="highlight-box" style="margin-top: 2rem;">
+        <p><strong>Čl. 6(3)(e) — Veze sa svim Gateovima:</strong> Svaki Gate mora uspostaviti i održavati sigurnu povezu sa <strong>svim ostalim eFTI Gateovima</strong>, uključujući ažuran registar identifikacijskih brojeva i sigurnosnih certifikata tih Gateova.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEARCH MECHANISM + RoI -->
+<section class="section section-dark" id="search">
+  <div class="container">
+    <div class="content-block" data-reveal>
+      <h2>🔍 (d) Search Mechanism + Registry of Identifiers (Čl. 8, 11)</h2>
+      
+      <div class="two-col">
+        <div>
+          <h3>Search Mechanism (Čl. 8)</h3>
+          <ul>
+            <li>Integriran u svaki eFTI Gate (Čl. 8(1))</li>
+            <li>Prima obrađene zahtjeve od Gatea</li>
+            <li>Upravlja <strong>Registrom identifikatora (RoI)</strong></li>
+            <li>Određuje je li UIL u lokalnom RoI ili ga treba proslijediti:
+              <ul>
+                <li><strong>Lokalni RoI</strong> (Čl. 8(3)) → identificira platformu → usmjerava zahtjev</li>
+                <li><strong>Nije u RoI</strong> (Čl. 8(4)) → prosljeđuje na <strong>sve ostale Gateove</strong></li>
+              </ul>
+            </li>
+            <li><strong>Timeout: 60 sekundi</strong> — ako nema odgovora, vraća "no information available" (Čl. 8(5))</li>
+            <li>Zahtjev temeljen na identifikatorima → pretražuje vlastiti RoI, zatim RoI drugih Gateova (Čl. 8(6))</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Registry of Identifiers — RoI (Čl. 11)</h3>
+          <ul>
+            <li>RoI je integriran u svaki eFTI Gate (Čl. 11(1))</li>
+            <li>eFTI platforma <strong>uploadira</strong> u RoI svog matičnog Gatea:
+              <ul>
+                <li><strong>UIL</strong> (Čl. 11(2)): gate_identifier + platform_identifier + UUID</li>
+                <li><strong>Identifikatori</strong> (Čl. 11(3)): pridruženi UIL-u, uključujući <strong>eFTI1451</strong></li>
+              </ul>
+            </li>
+          </ul>
+
+          <h3>Životni ciklus UIL-a (Čl. 11(4)–(6))</h3>
+          <div class="process-steps">
+            <div class="process-step active">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <h4>Upload</h4>
+                <p>Platforma uploadira UIL i identifikatore</p>
+              </div>
+            </div>
+            <div class="process-step">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <h4>Aktivacija</h4>
+                <p>Platforma aktivira UIL kad su podaci dostupni</p>
+              </div>
+            </div>
+            <div class="process-step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <h4>Deaktivacija</h4>
+                <p>Podaci više nisu dostupni za nove upite</p>
+              </div>
+            </div>
+            <div class="process-step">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <h4>Brisanje</h4>
+                <p>Platforma briše UIL iz RoI</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3>RoI identifikatori i eFTI1451</h3>
+      <div class="table-wrapper">
+        <table class="table-styled">
+          <thead>
+            <tr>
+              <th>Identifikator</th>
+              <th>Opis</th>
+              <th>Izvor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Identifikatori prijevoza</strong></td>
+              <td>Registarske oznake, brojevi dokumenata, LOCODE-ovi</td>
+              <td>eFTI common data set</td>
+            </tr>
+            <tr>
+              <td><strong>eFTI1451</strong></td>
+              <td><span class="badge badge-red">Indikator opasnih tvari (DG on board)</span></td>
+              <td>Delegirana uredba 2024/2024</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="highlight-box warning">
+        <p><strong>eFTI1451 je ključan za eADR:</strong> Omogućuje da HR Gate putem Search Mechanisma automatski identificira pošiljke s opasnim tvarima bez potrebe za full pull podataka.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USER APPLICATION -->
+<section class="section" id="user-app">
+  <div class="container">
+    <div class="content-block" data-reveal>
+      <h2>💻 (e) User Application — Korisnička aplikacija (Čl. 7)</h2>
+      
+      <h3>Funkcije</h3>
+      <ul>
+        <li><strong>Grafičko sučelje</strong> za ovlaštene službenike</li>
+        <li><strong>Generira zahtjeve</strong> prema AAP-u</li>
+        <li><strong>Prikazuje rezultate</strong> provjera</li>
+        <li>Podržava obje procedure — <strong>Procedura A</strong> (UIL sken) i <strong>Procedura B</strong> (pretraga po identifikatorima)</li>
+      </ul>
+
+      <div class="two-col">
+        <div class="card">
+          <div class="card-icon green">📱</div>
+          <h3>Procedura A — UIL sken</h3>
+          <p>Službenik skenira QR kod / barkod koji vozač fizički predočuje. UIL se šalje direktno na AAP → Gate → Platforma.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon purple">🔍</div>
+          <h3>Procedura B — Pretraga</h3>
+          <p>Službenik unosi identifikatore (reg. oznaka, UN broj...) i Search Mechanism pretražuje sve RoI-ove u Gate mreži.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TERMINOLOGY -->
+<section class="section section-dark">
+  <div class="container">
+    <div class="content-block" data-reveal>
+      <h2>📖 Terminološka referenca — Što NE postoji u uredbi</h2>
+      
+      <div class="table-wrapper">
+        <table class="table-styled">
+          <thead>
+            <tr>
+              <th>❌ Pogrešan termin</th>
+              <th>✅ Ispravan termin</th>
+              <th>Napomena</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="badge badge-red">"eFTI Portal"</span></td>
+              <td><strong>eFTI Gate</strong></td>
+              <td>"Portal" se ne koristi nigdje u uredbi 2024/1942</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-red">"Metadata push"</span></td>
+              <td><strong>UIL + identifikator upload u RoI</strong></td>
+              <td>Platforma uploadira UIL i identifikatore u RoI svog matičnog Gatea (Čl. 11)</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-red">"portal_id"</span></td>
+              <td><strong>gate_identifier</strong></td>
+              <td>UIL = gate_identifier + platform_identifier + UUID (Čl. 11(2))</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-red">"Platforma pushuje u više Gateova"</span></td>
+              <td><strong>Samo u matični Gate</strong></td>
+              <td>Uvodna izjava 9 — ONE gate only</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-red">"eADR ↔ strane eFTI platforme"</span></td>
+              <td><strong>eADR ↔ HR Gate ↔ Gate-to-Gate ↔ strana platforma</strong></td>
+              <td>Direktna komunikacija s platformama drugih država ne postoji</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-content">
+    <p><strong>eFTI Referentna Arhitektura</strong> — 5 ICT Komponenti</p>
+    <div class="legal-refs">
+      <span class="legal-ref">Uredba (EU) 2020/1056</span>
+      <span class="legal-ref">Provedbena (EU) 2024/1942</span>
+      <span class="legal-ref">Delegirana (EU) 2024/2024</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

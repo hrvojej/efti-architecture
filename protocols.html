@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Komunikacijski protokoli — eFTI Arhitektura</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-content">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">🇪🇺</div>
+      <span>eFTI Arhitektura</span>
+    </a>
+    <button class="mobile-toggle" aria-label="Menu">☰</button>
+    <ul class="nav-links">
+      <li><a href="index.html">Pregled</a></li>
+      <li><a href="components.html">Komponente</a></li>
+      <li><a href="protocols.html" class="active">Protokoli</a></li>
+      <li><a href="eadr.html">eADR Sustav</a></li>
+      <li><a href="analytics.html">Analitika</a></li>
+      <li><a href="inspection.html">Nadzor</a></li>
+      <li><a href="dg-dataset.html">DG Dataset</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="hero-bg"></div>
+  <div class="page-hero-content">
+    <div class="breadcrumb">
+      <a href="index.html">Početna</a> / <span>Komunikacijski protokoli</span>
+    </div>
+    <h1>Komunikacijski protokoli (Čl. 9)</h1>
+    <p>eDelivery AS4, statičko vs. dinamičko otkrivanje, SML/SMP mehanizam — kako komponente eFTI okruženja komuniciraju.</p>
+  </div>
+</section>
+
+<!-- PROTOCOL TABLE -->
+<section class="section">
+  <div class="container">
+    <div class="content-block" data-reveal>
+      <h2>📡 Pregled komunikacijskih veza</h2>
+      
+      <div class="table-wrapper">
+        <table class="table-styled">
+          <thead>
+            <tr>
+              <th>Veza</th>
+              <th>Protokol</th>
+              <th>Discovery</th>
+              <th>Format</th>
+              <th>Referenca</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Gate ↔ Gate</strong></td>
+              <td>eDelivery AS4</td>
+              <td><span class="badge badge-blue">Statičko (fiksne adrese)</span></td>
+              <td>XML</td>
+              <td>Čl. 9(2)</td>
+            </tr>
+            <tr>
+              <td><strong>Gate ↔ Platforma</strong></td>
+              <td>eDelivery AS4</td>
+              <td><span class="badge badge-purple">Dinamičko (SML/SMP)</span></td>
+              <td>XML</td>
+              <td>Čl. 9(3)</td>
+            </tr>
+            <tr>
+              <td><strong>Gate ↔ Platforma (ista država)</strong></td>
+              <td>Nacionalni ekvivalent</td>
+              <td><span class="badge badge-green">Po nacionalnoj impl.</span></td>
+              <td>Po dogovoru</td>
+              <td>Čl. 9(4)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <ul>
+        <li><strong>XML format</strong> za sve poruke (Čl. 9(1))</li>
+        <li>Gate-to-Gate koristi <strong>statičko otkrivanje</strong> (fiksne krajnje točke)</li>
+        <li>Gate-to-Platform koristi <strong>dinamičko otkrivanje</strong> putem SML/SMP</li>
+        <li>Država članica <strong>može koristiti nacionalno rješenje</strong> za komunikaciju Gate-Platforma unutar iste države (Čl. 9(4))</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- STATIC DISCOVERY -->
+<section class="section section-dark" id="static">
+  <div class="container">
+    <div class="content-block" data-reveal>
+      <h2>🔒 Statičko otkrivanje — Gate-to-Gate (Čl. 9(2))</h2>
+      
+      <p>Gate-to-Gate komunikacija koristi <strong>fiksne, unaprijed konfigurirane adrese</strong>. Samo ~27 Gateova (jedan po državi), rijetke promjene — ručna konfiguracija je održiva.</p>
+
+      <div class="code-block">
+HR Gate ima konfiguracijsku tablicu:
+  DE Gate → https://efti-gate.bund.de/as4           (certifikat: DE-GATE-CERT)
+  AT Gate → https://efti-gate.bmk.gv.at/as4         (certifikat: AT-GATE-CERT)
+  SI Gate → https://efti-gate.gov.si/as4             (certifikat: SI-GATE-CERT)
+  FR Gate → https://efti-gate.douane.gouv.fr/as4     (certifikat: FR-GATE-CERT)
+  ...itd. za svih ~27 država
+      </div>
+
+      <div class="highlight-box">
+        <p><strong>Čl. 6(3)(e):</strong> Svaki Gate mora uspostaviti i održavati sigurnu vezu sa <strong>svim ostalim eFTI Gateovima</strong>, uključujući ažuran registar identifikacijskih brojeva i sigurnosnih certifikata tih Gateova.</p>
+      </div>
+
+      <h3>Zašto statički?</h3>
+      <div class="card-grid card-grid-3">
+        <div class="card">
+          <div class="card-icon blue">🔢</div>
+          <h3>~27 sudionika</h3>
+          <p>Samo države članice — mali, stabilan skup</p>
+        </div>
+        <div class="card">
+          <div class="card-icon green">🔄</div>
+          <h3>Rijetke promjene</h3>
+          <p>Nova država = godinama, fiksne tablice su dovoljne</p>
+        </div>
+        <div class="card">
+          <div class="card-icon orange">🔑</div>
+          <h3>Bilateralni certifikati</h3>
+          <p>Ručna razmjena certifikata je održiva za 27 zapisa</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DYNAMIC DISCOVERY -->
+<section class="section" id="dynamic">
+  <div class="container">
+    <div class="content-block" data-reveal>
+      <h2>🌍 Dinamičko otkrivanje — Gate-to-Platform (Čl. 9(3))</h2>
+      
+      <p>Gate-to-Platform koristi <strong>automatsko otkrivanje</strong> jer će postojati stotine/tisuće eFTI platformi u cijeloj EU. Ručna konfiguracija nije održiva → koristi se <strong>SML/SMP mehanizam</strong> iz eDelivery standarda.</p>
+
+      <div class="two-col" style="margin: 3rem 0;">
+        <div class="card">
+          <div class="card-icon purple">🌐</div>
+          <h3>SML — Service Metadata Locator</h3>
+          <p><strong>Centralni registar</strong> na EU razini (jedan za cijeli eFTI). Funkcionira poput DNS-a.</p>
+          <div class="code-block" style="margin-top: 1rem;">
+Pitanje: "Koji SMP servis zna za platformu X?"
+Odgovor: "Pitaj SMP na adresi smp.primjer.de"
+
+Tehnički: DNS lookup
+Primjer: DE-PLAT-0042.efti.sml.europa.eu
+         → smp.efti-de.de
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-icon cyan">📋</div>
+          <h3>SMP — Service Metadata Publisher</h3>
+          <p><strong>Decentralizirani registar</strong> (obično po državi). Sadrži konkretne tehničke detalje za svaku platformu.</p>
+          <div class="code-block" style="margin-top: 1rem;">
+Pitanje: "Kako kontaktirati platformu X?"
+Odgovor:
+  URL: https://platform42.logistics.de/as4
+  Certifikat: X.509 javni ključ
+  Procesi: eFTI-DataAccess-v1
+  Transport: eDelivery AS4
+          </div>
+        </div>
+      </div>
+
+      <h3>Tok dinamičkog otkrivanja — korak po korak</h3>
+      <p style="color: var(--text-muted); margin-bottom: 2rem;">
+        Primjer: DE Gate treba kontaktirati platformu "DE-PLAT-0042" (nakon zahtjeva od HR Gate)
+      </p>
+
+      <div class="timeline">
+        <div class="timeline-step" data-reveal>
+          <div class="timeline-marker">1</div>
+          <div class="timeline-content">
+            <h3>SML lookup (DNS)</h3>
+            <p>DE Gate → DNS upit: <code>DE-PLAT-0042.efti.sml.europa.eu</code></p>
+            <p>Odgovor: CNAME → <code>smp.efti-de.example.de</code> ("za tu platformu pitaj ovaj SMP")</p>
+          </div>
+        </div>
+        <div class="timeline-step" data-reveal>
+          <div class="timeline-marker">2</div>
+          <div class="timeline-content">
+            <h3>SMP upit (HTTPS)</h3>
+            <p>DE Gate → GET <code>https://smp.efti-de.example.de/DE-PLAT-0042</code></p>
+            <p>Odgovor (XML): Endpoint, X.509 certifikat, podržani procesi (DataAccess, UILUpload, FollowUp), transport info.</p>
+          </div>
+        </div>
+        <div class="timeline-step" data-reveal>
+          <div class="timeline-marker">3</div>
+          <div class="timeline-content">
+            <h3>AS4 poruka prema platformi</h3>
+            <p>DE Gate → eDelivery AS4 na <code>https://plat42.log.de/as4</code></p>
+            <p>Auth: mTLS (certifikat iz koraka 2), Body: XML zahtjev (UIL, access rights, request ID)</p>
+            <p>Platforma vraća eFTI podatke → DE Gate → HR Gate → inspektor</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON TABLE -->
+<section class="section section-dark">
+  <div class="container">
+    <div class="content-block" data-reveal>
+      <h2>⚖️ Statičko vs. Dinamičko — usporedba</h2>
+      
+      <div class="table-wrapper">
+        <table class="table-styled">
+          <thead>
+            <tr>
+              <th>Aspekt</th>
+              <th>Gate-to-Gate (statičko)</th>
+              <th>Gate-to-Platform (dinamičko)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Broj sudionika</strong></td>
+              <td>~27 (države članice)</td>
+              <td><strong>Stotine/tisuće</strong> platformi</td>
+            </tr>
+            <tr>
+              <td><strong>Učestalost promjena</strong></td>
+              <td>Rijetko</td>
+              <td><strong>Često</strong> (nove platforme, gašenja, migracije)</td>
+            </tr>
+            <tr>
+              <td><strong>Konfiguracija</strong></td>
+              <td>Ručna, fiksna tablica</td>
+              <td><strong>Automatska</strong> — SML/SMP lookup</td>
+            </tr>
+            <tr>
+              <td><strong>Skalabilnost</strong></td>
+              <td>Nije problem (27 zapisa)</td>
+              <td><strong>Kritično</strong> — SML/SMP rješava</td>
+            </tr>
+            <tr>
+              <td><strong>Certifikati</strong></td>
+              <td>Bilateralna razmjena</td>
+              <td><strong>SMP ih objavljuje</strong> automatski</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NATIONAL ALTERNATIVE -->
+<section class="section">
+  <div class="container">
+    <div class="content-block" data-reveal>
+      <h2>🇭🇷 Nacionalna alternativa (Čl. 9(4))</h2>
+      
+      <div class="highlight-box">
+        <p><strong>Čl. 9(4):</strong> Za komunikaciju unutar iste države (HR Gate ↔ HR platforma), uredba dopušta korištenje nacionalnog rješenja umjesto SML/SMP. Država mora javno objaviti te specifikacije kako bi ih platforme mogle implementirati.</p>
+      </div>
+
+      <h3>Postojeći EU sustavi koji koriste SML/SMP</h3>
+      <div class="table-wrapper">
+        <table class="table-styled">
+          <thead>
+            <tr>
+              <th>Sustav</th>
+              <th>SML adresa</th>
+              <th>Namjena</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>PEPPOL</strong></td>
+              <td><code>sml.peppol.eu</code></td>
+              <td>e-Računi, e-Nabava</td>
+            </tr>
+            <tr>
+              <td><strong>eIDAS</strong></td>
+              <td>eIDAS node registry</td>
+              <td>Prekogranična identifikacija</td>
+            </tr>
+            <tr>
+              <td><strong>EHDSI</strong></td>
+              <td>Zdravstveni SMP</td>
+              <td>Prekogranično zdravstvo (e-recepti)</td>
+            </tr>
+            <tr>
+              <td><strong>CEF eDelivery</strong></td>
+              <td><code>sml.acc.edelivery.tech.ec.europa.eu</code></td>
+              <td>Svi EU building block projekti</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p style="margin-top: 1.5rem; color: var(--text-muted);">
+        eFTI će koristiti vlastiti SML (vjerojatno <code>sml.efti.europa.eu</code> ili slično — uspostava u tijeku paralelno s implementacijom Gateova).
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- SECURITY -->
+<section class="section section-dark">
+  <div class="container">
+    <div class="content-block" data-reveal>
+      <h2>🔐 Sigurnost (Čl. 10)</h2>
+      
+      <div class="card-grid card-grid-3">
+        <div class="card">
+          <div class="card-icon blue">🔒</div>
+          <h3>TLS certifikati</h3>
+          <p>Za sve komunikacijske kanale — šifrirana komunikacija između svih komponenti.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon green">✍️</div>
+          <h3>Kvalificirani elektronički pečati</h3>
+          <p>Za integritet i non-repudiation poruka u Gate mreži.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon purple">🤝</div>
+          <h3>mTLS autentikacija</h3>
+          <p>Obostrana autentikacija certifikatom za gate-to-gate i gate-to-platform veze.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-content">
+    <p><strong>eFTI Referentna Arhitektura</strong> — Komunikacijski protokoli</p>
+    <div class="legal-refs">
+      <span class="legal-ref">Čl. 9 — Komunikacija</span>
+      <span class="legal-ref">Čl. 10 — Sigurnost</span>
+      <span class="legal-ref">eDelivery AS4 / SML/SMP</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

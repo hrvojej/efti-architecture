@@ -17,7 +17,7 @@ Arhitektura Domibusa organizirana je u **četiri sloja** (od vrha prema dnu):
 
 ## 2. Backend plugini — sučelje prema poslovnim aplikacijama
 
-Plugini su **jedina točka kontakta** između Domibusa i lokalnog backend sustava (npr. eADR, ERP, DMS…). Svaki plugin pretvara poruke iz internog Domibus formata u format koji backend sustav razumije i obratno.
+Plugini su **jedina točka kontakta** između Domibusa i lokalnog backend sustava (npr. ERP, DMS, carinski sustav…). Svaki plugin pretvara poruke iz internog Domibus formata u format koji backend sustav razumije i obratno.
 
 ### 2.1 WS Plugin (Web Services — SOAP/REST)
 

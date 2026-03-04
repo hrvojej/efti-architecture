@@ -7,18 +7,23 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
   <style>
-    /* ===== DEMO-SPECIFIC STYLES ===== */
+    /* ===== DEMO LAYOUT ===== */
+    .demo-wrapper {
+      display: flex;
+      gap: 0;
+      flex-direction: column;
+    }
+
     .demo-stage {
       position: relative;
       width: 100%;
-      min-height: 85vh;
+      height: 850px;
       background: linear-gradient(135deg, #0c1222 0%, #0f172a 50%, #0c1a2e 100%);
-      overflow: hidden;
-      border-radius: 16px;
+      overflow: visible;
+      border-radius: 16px 16px 0 0;
       border: 1px solid rgba(99, 102, 241, 0.15);
+      border-bottom: none;
     }
-
-    /* Grid overlay */
     .demo-stage::before {
       content: '';
       position: absolute;
@@ -30,14 +35,14 @@
       pointer-events: none;
     }
 
-    /* SVG arrow layer */
+    /* SVG arrows */
     .arrow-layer {
       position: absolute;
       inset: 0;
       pointer-events: none;
       z-index: 2;
+      overflow: visible;
     }
-
     .arrow-path {
       fill: none;
       stroke: var(--accent);
@@ -52,33 +57,20 @@
     }
     .arrow-path.done {
       stroke-dashoffset: 0;
-      stroke: rgba(99, 102, 241, 0.35);
+      stroke: rgba(99, 102, 241, 0.25);
       filter: none;
       transition: stroke 0.5s, filter 0.5s;
     }
-
     .arrow-head {
       fill: var(--accent);
       opacity: 0;
       filter: drop-shadow(0 0 6px rgba(99, 102, 241, 0.6));
       transition: opacity 0.3s;
     }
-    .arrow-head.visible {
-      opacity: 1;
-    }
-    .arrow-head.done {
-      fill: rgba(99, 102, 241, 0.35);
-      filter: none;
-    }
-
-    /* Pulse on arrow tip */
-    .arrow-pulse {
-      fill: var(--accent);
-      opacity: 0;
-    }
-    .arrow-pulse.active {
-      animation: arrowPulse 1s ease-out;
-    }
+    .arrow-head.visible { opacity: 1; }
+    .arrow-head.done { fill: rgba(99, 102, 241, 0.25); filter: none; }
+    .arrow-pulse { fill: var(--accent); opacity: 0; }
+    .arrow-pulse.active { animation: arrowPulse 1s ease-out; }
     @keyframes arrowPulse {
       0% { r: 4; opacity: 0.8; }
       100% { r: 20; opacity: 0; }
@@ -88,129 +80,104 @@
     .demo-node {
       position: absolute;
       background: rgba(15, 23, 42, 0.95);
-      border: 1.5px solid rgba(99, 102, 241, 0.25);
-      border-radius: 12px;
-      padding: 14px 18px;
+      border: 1.5px solid rgba(99, 102, 241, 0.2);
+      border-radius: 10px;
+      padding: 10px 14px;
       text-align: center;
       z-index: 3;
       opacity: 0;
       transform: scale(0.7);
       transition: opacity 0.5s, transform 0.5s, border-color 0.4s, box-shadow 0.4s;
-      min-width: 110px;
+      min-width: 100px;
     }
-    .demo-node.visible {
-      opacity: 1;
-      transform: scale(1);
-    }
+    .demo-node.visible { opacity: 1; transform: scale(1); }
     .demo-node.active {
       border-color: var(--accent);
-      box-shadow: 0 0 20px rgba(99, 102, 241, 0.3), inset 0 0 20px rgba(99, 102, 241, 0.05);
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.3), inset 0 0 15px rgba(99, 102, 241, 0.05);
     }
-    .demo-node.done {
-      border-color: rgba(99, 102, 241, 0.15);
-      box-shadow: none;
-      opacity: 0.6;
-    }
-    .demo-node .node-emoji {
-      font-size: 1.6rem;
-      display: block;
-      margin-bottom: 6px;
-    }
-    .demo-node .node-name {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      line-height: 1.2;
-    }
-    .demo-node .node-sub {
-      font-size: 0.65rem;
-      color: var(--text-muted);
-      margin-top: 3px;
-    }
+    .demo-node.done { border-color: rgba(99, 102, 241, 0.1); box-shadow: none; opacity: 0.5; }
+    .demo-node .node-emoji { font-size: 1.4rem; display: block; margin-bottom: 4px; }
+    .demo-node .node-name { font-size: 0.75rem; font-weight: 600; color: var(--text-primary); line-height: 1.2; }
+    .demo-node .node-sub { font-size: 0.6rem; color: var(--text-muted); margin-top: 2px; }
+    .demo-node.small { padding: 6px 10px; min-width: 70px; border-radius: 8px; }
+    .demo-node.small .node-emoji { font-size: 1rem; margin-bottom: 2px; }
+    .demo-node.small .node-name { font-size: 0.65rem; }
 
-    /* Register sub-nodes (smaller) */
-    .demo-node.small {
-      padding: 8px 12px;
-      min-width: 80px;
-      border-radius: 8px;
-    }
-    .demo-node.small .node-emoji {
-      font-size: 1.1rem;
-      margin-bottom: 3px;
-    }
-    .demo-node.small .node-name {
-      font-size: 0.7rem;
-    }
-
-    /* Narration box */
-    .narration-box {
+    /* eFTI System wrapper — visual container showing eADR is INSIDE eFTI */
+    .efti-system-box {
       position: absolute;
-      bottom: 80px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(15, 23, 42, 0.95);
-      border: 1px solid rgba(99, 102, 241, 0.3);
-      border-radius: 14px;
-      padding: 20px 30px;
-      max-width: 600px;
-      width: 90%;
-      z-index: 10;
+      border: 2px dashed rgba(99, 102, 241, 0.35);
+      border-radius: 16px;
+      z-index: 1;
       opacity: 0;
+      transition: opacity 0.6s;
+      pointer-events: none;
+      background: rgba(99, 102, 241, 0.02);
+    }
+    .efti-system-box.visible { opacity: 1; }
+    .efti-system-box .box-label {
+      position: absolute;
+      top: -12px;
+      left: 20px;
+      background: #0f172a;
+      padding: 2px 12px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border-radius: 4px;
+      border: 1px solid rgba(99, 102, 241, 0.25);
+    }
+
+    /* Narration panel — BELOW stage, not overlapping */
+    .narration-panel {
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(99, 102, 241, 0.15);
+      border-top: 2px solid var(--accent);
+      border-radius: 0;
+      padding: 20px 30px;
+      min-height: 100px;
       transition: opacity 0.4s;
-      backdrop-filter: blur(10px);
     }
-    .narration-box.visible {
-      opacity: 1;
-    }
-    .narration-step {
-      font-size: 0.7rem;
+    .narration-panel .narration-step {
+      font-size: 0.65rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 2px;
       color: var(--accent);
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
-    .narration-title {
-      font-size: 1.1rem;
+    .narration-panel .narration-title {
+      font-size: 1rem;
       font-weight: 700;
       color: var(--text-primary);
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
-    .narration-text {
-      font-size: 0.85rem;
+    .narration-panel .narration-text {
+      font-size: 0.82rem;
       color: var(--text-secondary);
       line-height: 1.5;
     }
-
-    /* Data packet animation */
-    .data-packet {
-      position: absolute;
-      width: 8px;
-      height: 8px;
-      background: var(--accent);
-      border-radius: 50%;
-      z-index: 5;
-      opacity: 0;
-      box-shadow: 0 0 12px var(--accent), 0 0 4px var(--accent);
-      pointer-events: none;
+    .narration-panel.empty .narration-title::after {
+      content: 'Pritisnite Play za pokretanje animacije';
+      color: var(--text-muted);
+      font-weight: 400;
+      font-style: italic;
     }
 
     /* Controls bar */
     .demo-controls {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(15, 23, 42, 0.9);
-      border-top: 1px solid rgba(99, 102, 241, 0.15);
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(99, 102, 241, 0.15);
+      border-top: none;
+      border-radius: 0 0 16px 16px;
       padding: 14px 24px;
       display: flex;
       align-items: center;
-      gap: 16px;
-      z-index: 20;
-      backdrop-filter: blur(10px);
+      gap: 14px;
+      flex-wrap: wrap;
     }
-
     .btn-play {
       display: flex;
       align-items: center;
@@ -220,28 +187,16 @@
       border: none;
       border-radius: 10px;
       padding: 10px 22px;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 600;
       cursor: pointer;
       font-family: inherit;
       transition: all 0.3s;
       white-space: nowrap;
     }
-    .btn-play:hover {
-      background: #818cf8;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
-    }
-    .btn-play:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
-    }
-    .btn-play .play-icon {
-      font-size: 1.1rem;
-    }
-
+    .btn-play:hover { background: #818cf8; transform: translateY(-1px); box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4); }
+    .btn-play:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+    .btn-play .play-icon { font-size: 1rem; }
     .btn-step {
       background: rgba(99, 102, 241, 0.15);
       color: var(--text-primary);
@@ -254,45 +209,13 @@
       font-family: inherit;
       transition: all 0.3s;
     }
-    .btn-step:hover:not(:disabled) {
-      background: rgba(99, 102, 241, 0.25);
-    }
-    .btn-step:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-
-    .progress-bar {
-      flex: 1;
-      height: 4px;
-      background: rgba(99, 102, 241, 0.1);
-      border-radius: 2px;
-      overflow: hidden;
-    }
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, var(--accent), #818cf8);
-      border-radius: 2px;
-      transition: width 0.5s ease;
-    }
-
-    .step-counter {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      white-space: nowrap;
-    }
-
-    /* Speed control */
-    .speed-control {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .speed-control label {
-      font-size: 0.7rem;
-      color: var(--text-muted);
-    }
+    .btn-step:hover:not(:disabled) { background: rgba(99, 102, 241, 0.25); }
+    .btn-step:disabled { opacity: 0.4; cursor: not-allowed; }
+    .progress-bar { flex: 1; height: 4px; background: rgba(99, 102, 241, 0.1); border-radius: 2px; overflow: hidden; min-width: 80px; }
+    .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), #818cf8); border-radius: 2px; transition: width 0.5s ease; }
+    .step-counter { font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; }
+    .speed-control { display: flex; align-items: center; gap: 6px; }
+    .speed-control label { font-size: 0.7rem; color: var(--text-muted); }
     .speed-control select {
       background: rgba(99, 102, 241, 0.15);
       color: var(--text-primary);
@@ -304,11 +227,11 @@
       cursor: pointer;
     }
 
-    /* Start overlay */
+    /* Overlays */
     .start-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(15, 23, 42, 0.85);
+      background: rgba(15, 23, 42, 0.88);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -316,11 +239,9 @@
       z-index: 30;
       backdrop-filter: blur(4px);
       transition: opacity 0.5s;
+      border-radius: 16px 16px 0 0;
     }
-    .start-overlay.hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
+    .start-overlay.hidden { opacity: 0; pointer-events: none; }
     .start-overlay h2 {
       font-size: 1.8rem;
       margin-bottom: 12px;
@@ -328,35 +249,9 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    .start-overlay p {
-      color: var(--text-secondary);
-      margin-bottom: 30px;
-      max-width: 500px;
-      text-align: center;
-      line-height: 1.6;
-    }
-    .start-overlay .btn-play {
-      padding: 16px 40px;
-      font-size: 1.1rem;
-      border-radius: 14px;
-    }
-    .start-overlay .btn-play .play-icon {
-      font-size: 1.4rem;
-    }
+    .start-overlay p { color: var(--text-secondary); margin-bottom: 30px; max-width: 520px; text-align: center; line-height: 1.6; font-size: 0.9rem; }
+    .start-overlay .btn-play { padding: 16px 40px; font-size: 1.1rem; border-radius: 14px; }
 
-    /* Responsive */
-    @media (max-width: 900px) {
-      .demo-stage { min-height: 75vh; }
-      .demo-node { padding: 10px 12px; min-width: 80px; }
-      .demo-node .node-emoji { font-size: 1.2rem; }
-      .demo-node .node-name { font-size: 0.7rem; }
-      .demo-node.small { padding: 6px 8px; min-width: 60px; }
-      .narration-box { bottom: 70px; padding: 14px 20px; }
-      .narration-title { font-size: 0.95rem; }
-      .narration-text { font-size: 0.8rem; }
-    }
-
-    /* Finish overlay */
     .finish-overlay {
       position: absolute;
       inset: 0;
@@ -370,23 +265,11 @@
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.6s;
+      border-radius: 16px 16px 0 0;
     }
-    .finish-overlay.visible {
-      opacity: 1;
-      pointer-events: auto;
-    }
-    .finish-overlay h2 {
-      font-size: 2rem;
-      margin-bottom: 12px;
-      color: var(--success);
-    }
-    .finish-overlay p {
-      color: var(--text-secondary);
-      max-width: 480px;
-      text-align: center;
-      line-height: 1.6;
-      margin-bottom: 24px;
-    }
+    .finish-overlay.visible { opacity: 1; pointer-events: auto; }
+    .finish-overlay h2 { font-size: 2rem; margin-bottom: 12px; color: var(--success); }
+    .finish-overlay p { color: var(--text-secondary); max-width: 500px; text-align: center; line-height: 1.6; margin-bottom: 24px; }
   </style>
 </head>
 <body>
@@ -411,205 +294,196 @@
   </div>
 </nav>
 
-<section class="page-hero" style="padding-bottom: 1.5rem;">
+<section class="page-hero" style="padding-bottom: 1rem;">
   <div class="hero-bg"></div>
   <div class="page-hero-content">
     <div class="breadcrumb">
       <a href="index.html">Početna</a> / <span>Animirani Demo</span>
     </div>
     <h1>End-to-End scenarij: Cestovni nadzor DG prijevoza</h1>
-    <p>Interaktivna animacija kompletnog procesa — od zaustavljanja vozila do AFFINIS exporta. Pritisnite Play i pratite tok podataka kroz sve eFTI komponente.</p>
+    <p>Interaktivna animacija kompletnog procesa — od zaustavljanja vozila do AFFINIS exporta. eADR je modul (režim) unutar eFTI sustava, a ne zasebna aplikacija.</p>
   </div>
 </section>
 
-<section class="section" style="padding-top: 1rem;">
+<section class="section" style="padding-top: 0.5rem;">
   <div class="container">
-    <div class="demo-stage" id="demoStage">
+    <div class="demo-wrapper">
 
-      <!-- SVG Arrow Layer -->
-      <svg class="arrow-layer" id="arrowLayer"></svg>
+      <!-- ===== STAGE ===== -->
+      <div class="demo-stage" id="demoStage">
+        <svg class="arrow-layer" id="arrowLayer"></svg>
 
-      <!-- Data packet (animated dot) -->
-      <div class="data-packet" id="dataPacket"></div>
+        <!-- eFTI System visual wrapper — shows eADR + AAP + Gate + Search are INSIDE eFTI -->
+        <div class="efti-system-box" id="efti-box" style="top: 18px; left: 220px; width: 690px; height: 105px;">
+          <span class="box-label">🇪🇺 eFTI SUSTAV</span>
+        </div>
 
-      <!-- === COMPONENT NODES === -->
-      <!-- Row 1: Inspector -->
-      <div class="demo-node" id="n-inspector" style="top: 5%; left: 3%;">
-        <span class="node-emoji">👮</span>
-        <span class="node-name">Inspektor</span>
-        <span class="node-sub">MUP/HAK</span>
+        <!-- ===== ROW 1 (y=40): Inspector → NIAS → [eFTI: eADR modul + Vehicle + Decision] ===== -->
+        <div class="demo-node" id="n-inspector" style="top: 40px; left: 15px;">
+          <span class="node-emoji">👮</span>
+          <span class="node-name">Inspektor</span>
+          <span class="node-sub">MUP/HAK</span>
+        </div>
+
+        <div class="demo-node" id="n-nias" style="top: 40px; left: 130px;">
+          <span class="node-emoji">🔐</span>
+          <span class="node-name">NIAS</span>
+          <span class="node-sub">SAML 2.0</span>
+        </div>
+
+        <!-- eADR modul — INSIDE the eFTI box -->
+        <div class="demo-node" id="n-eadr" style="top: 38px; left: 250px;">
+          <span class="node-emoji">📋</span>
+          <span class="node-name">eADR modul</span>
+          <span class="node-sub">Režim u eFTI sustavu</span>
+        </div>
+
+        <!-- Vehicle — inside eFTI box -->
+        <div class="demo-node" id="n-vehicle" style="top: 42px; left: 430px;">
+          <span class="node-emoji">🚛</span>
+          <span class="node-name">ZG-7823-KD</span>
+          <span class="node-sub">Cisterna · UN 1203</span>
+        </div>
+
+        <!-- HR or foreign decision — inside eFTI box -->
+        <div class="demo-node" id="n-decision" style="top: 42px; left: 630px;">
+          <span class="node-emoji">🇭🇷</span>
+          <span class="node-name">HR prijevoznik</span>
+          <span class="node-sub">→ El. provjera</span>
+        </div>
+
+        <!-- ===== ROW 2 (y=185): 8 Registara + results + eADR Op. baza ===== -->
+        <div class="demo-node" id="n-registers" style="top: 185px; left: 15px; min-width: 140px;">
+          <span class="node-emoji">📋</span>
+          <span class="node-name">8 Nac. registara</span>
+          <span class="node-sub">SAMO za HR prijevoznike</span>
+        </div>
+
+        <div class="demo-node small" id="n-reg-v" style="top: 180px; left: 195px;">
+          <span class="node-emoji">🚛</span>
+          <span class="node-name">Vozilo ✓</span>
+        </div>
+        <div class="demo-node small" id="n-reg-d" style="top: 180px; left: 290px;">
+          <span class="node-emoji">👤</span>
+          <span class="node-name">Vozač ✓</span>
+        </div>
+        <div class="demo-node small" id="n-reg-p" style="top: 180px; left: 385px;">
+          <span class="node-emoji">📜</span>
+          <span class="node-name">Dopušt. ✓</span>
+        </div>
+        <div class="demo-node small" id="n-reg-c" style="top: 180px; left: 480px;">
+          <span class="node-emoji">🏢</span>
+          <span class="node-name">Prijevoz. ✓</span>
+        </div>
+
+        <div class="demo-node" id="n-eadr-db" style="top: 175px; left: 600px; min-width: 140px;">
+          <span class="node-emoji">🗄️</span>
+          <span class="node-name">eADR Op. baza</span>
+          <span class="node-sub">Prethodni nadzori</span>
+        </div>
+
+        <!-- ===== ROW 3 (y=330): AFFINIS + Fizički + HR AAP + HR Gate + Search ===== -->
+        <div class="demo-node" id="n-affinis" style="top: 330px; left: 15px; min-width: 130px;">
+          <span class="node-emoji">📊</span>
+          <span class="node-name">AFFINIS DWH</span>
+          <span class="node-sub">SAMO >2 god. trendovi</span>
+        </div>
+
+        <div class="demo-node" id="n-physical" style="top: 330px; left: 180px;">
+          <span class="node-emoji">🔧</span>
+          <span class="node-name">Fizički pregled</span>
+          <span class="node-sub">Oprema · oznake</span>
+        </div>
+
+        <div class="demo-node" id="n-hr-aap" style="top: 330px; left: 370px;">
+          <span class="node-emoji">🔑</span>
+          <span class="node-name">HR AAP</span>
+          <span class="node-sub">Access Point</span>
+        </div>
+
+        <div class="demo-node" id="n-hr-gate" style="top: 330px; left: 530px;">
+          <span class="node-emoji">🇭🇷</span>
+          <span class="node-name">HR Gate</span>
+          <span class="node-sub">eFTI Gate · RoI</span>
+        </div>
+
+        <div class="demo-node" id="n-search" style="top: 330px; left: 700px;">
+          <span class="node-emoji">🔍</span>
+          <span class="node-name">Search</span>
+          <span class="node-sub">Čl. 8(4)</span>
+        </div>
+
+        <!-- ===== ROW 4 (y=490): DG Dataset + DE Gate + DE Platform ===== -->
+        <div class="demo-node" id="n-dg-data" style="top: 490px; left: 180px;">
+          <span class="node-emoji">☣️</span>
+          <span class="node-name">DG Dataset</span>
+          <span class="node-sub">UN 1203 · Klasa 3 · 24kL</span>
+        </div>
+
+        <div class="demo-node" id="n-de-gate" style="top: 490px; left: 450px;">
+          <span class="node-emoji">🇩🇪</span>
+          <span class="node-name">DE Gate</span>
+          <span class="node-sub">UIL pronađen</span>
+        </div>
+
+        <div class="demo-node" id="n-de-plat" style="top: 490px; left: 660px;">
+          <span class="node-emoji">☁️</span>
+          <span class="node-name">DE Platforma</span>
+          <span class="node-sub">Self-declared podaci</span>
+        </div>
+
+        <!-- ===== ROW 5 (y=660): Cross-val + Outcome + Export ===== -->
+        <div class="demo-node" id="n-cross" style="top: 660px; left: 60px;">
+          <span class="node-emoji">⚖️</span>
+          <span class="node-name">Cross-validacija</span>
+          <span class="node-sub">Self-declared vs. HR registri</span>
+        </div>
+
+        <div class="demo-node" id="n-outcome" style="top: 660px; left: 330px;">
+          <span class="node-emoji">✅</span>
+          <span class="node-name">Ishod: SUKLADNO</span>
+          <span class="node-sub">Zapis u eADR op. bazu</span>
+        </div>
+
+        <div class="demo-node" id="n-export" style="top: 660px; left: 590px;">
+          <span class="node-emoji">📈</span>
+          <span class="node-name">Export → AFFINIS</span>
+          <span class="node-sub">Historijski nakon 2 god.</span>
+        </div>
+
+        <!-- Overlays -->
+        <div class="start-overlay" id="startOverlay">
+          <h2>🎬 eFTI End-to-End Demo</h2>
+          <p>Animirani prikaz kompletnog scenarija cestovnog nadzora prijevoza opasnih tvari — 13 koraka. eADR je modul (režim) unutar eFTI sustava, a ne zasebna aplikacija.</p>
+          <button class="btn-play" onclick="startDemo()">
+            <span class="play-icon">▶</span> Pokreni animaciju
+          </button>
+        </div>
+
+        <div class="finish-overlay" id="finishOverlay">
+          <h2>✅ Scenarij završen</h2>
+          <p>Kompletni tok podataka pri cestovnom nadzoru — od NIAS autentikacije, kroz eADR modul unutar eFTI sustava, do AFFINIS historijskog exporta.</p>
+          <button class="btn-play" onclick="resetDemo()">
+            <span class="play-icon">🔄</span> Ponovi od početka
+          </button>
+        </div>
       </div>
 
-      <!-- Row 1: NIAS -->
-      <div class="demo-node" id="n-nias" style="top: 5%; left: 20%;">
-        <span class="node-emoji">🔐</span>
-        <span class="node-name">NIAS</span>
-        <span class="node-sub">SAML 2.0 / OAuth</span>
-      </div>
-
-      <!-- Row 1: eADR Modul (inside eFTI — NOT separate app!) -->
-      <div class="demo-node" id="n-eadr" style="top: 5%; left: 40%;">
-        <span class="node-emoji">📋</span>
-        <span class="node-name">eADR modul</span>
-        <span class="node-sub">Režim unutar eFTI sustava</span>
-      </div>
-
-      <!-- Row 1: Vehicle -->
-      <div class="demo-node" id="n-vehicle" style="top: 5%; left: 65%;">
-        <span class="node-emoji">🚛</span>
-        <span class="node-name">ZG-7823-KD</span>
-        <span class="node-sub">HR cisterna · UN 1203</span>
-      </div>
-
-      <!-- Row 1 far right: Decision badge — HR or foreign -->
-      <div class="demo-node" id="n-decision" style="top: 5%; left: 84%;">
-        <span class="node-emoji">🇭🇷</span>
-        <span class="node-name">HR prijevoznik</span>
-        <span class="node-sub">→ Elektronička provjera</span>
-      </div>
-
-      <!-- Row 2: 8 Registara (SAMO za HR prijevoznika) -->
-      <div class="demo-node" id="n-registers" style="top: 23%; left: 2%; min-width: 180px;">
-        <span class="node-emoji">📋</span>
-        <span class="node-name">8 Nacionalnih registara</span>
-        <span class="node-sub">SAMO za HR prijevoznike</span>
-      </div>
-
-      <!-- Register results -->
-      <div class="demo-node small" id="n-reg-v" style="top: 22%; left: 28%;">
-        <span class="node-emoji">🚛</span>
-        <span class="node-name">Vozilo ✓</span>
-      </div>
-      <div class="demo-node small" id="n-reg-d" style="top: 22%; left: 39%;">
-        <span class="node-emoji">👤</span>
-        <span class="node-name">Vozač ✓</span>
-      </div>
-      <div class="demo-node small" id="n-reg-p" style="top: 22%; left: 50%;">
-        <span class="node-emoji">📜</span>
-        <span class="node-name">Dopušt. ✓</span>
-      </div>
-      <div class="demo-node small" id="n-reg-c" style="top: 22%; left: 61%;">
-        <span class="node-emoji">🏢</span>
-        <span class="node-name">Prijevoz. ✓</span>
-      </div>
-
-      <!-- Row 2 right: eADR Operativna baza -->
-      <div class="demo-node" id="n-eadr-db" style="top: 23%; left: 76%; min-width: 160px;">
-        <span class="node-emoji">🗄️</span>
-        <span class="node-name">eADR Op. baza</span>
-        <span class="node-sub">Prethodni nadzori · operativni podaci</span>
-      </div>
-
-      <!-- Row 3 left: AFFINIS DWH (SAMO >2 god.) -->
-      <div class="demo-node" id="n-affinis" style="top: 40%; left: 2%; min-width: 180px;">
-        <span class="node-emoji">📊</span>
-        <span class="node-name">AFFINIS DWH</span>
-        <span class="node-sub">SAMO podaci >2 god. · trendovi prekršaja</span>
-      </div>
-
-      <!-- Row 3: Physical check -->
-      <div class="demo-node" id="n-physical" style="top: 40%; left: 28%;">
-        <span class="node-emoji">🔧</span>
-        <span class="node-name">Fizički pregled</span>
-        <span class="node-sub">Oprema · oznake · dokumenti</span>
-      </div>
-
-      <!-- Row 3: HR AAP -->
-      <div class="demo-node" id="n-hr-aap" style="top: 40%; left: 50%;">
-        <span class="node-emoji">🔑</span>
-        <span class="node-name">HR AAP</span>
-        <span class="node-sub">Access Point</span>
-      </div>
-
-      <!-- Row 3: HR Gate -->
-      <div class="demo-node" id="n-hr-gate" style="top: 40%; left: 67%;">
-        <span class="node-emoji">🇭🇷</span>
-        <span class="node-name">HR Gate</span>
-        <span class="node-sub">eFTI Gate · RoI</span>
-      </div>
-
-      <!-- Row 3: Search Mechanism -->
-      <div class="demo-node" id="n-search" style="top: 40%; left: 84%;">
-        <span class="node-emoji">🔍</span>
-        <span class="node-name">Search</span>
-        <span class="node-sub">Čl. 8(4) · svi Gateovi</span>
-      </div>
-
-      <!-- Row 4: DG Dataset response -->
-      <div class="demo-node" id="n-dg-data" style="top: 57%; left: 28%;">
-        <span class="node-emoji">☣️</span>
-        <span class="node-name">DG Dataset</span>
-        <span class="node-sub">UN 1203 · Klasa 3 · 24.000L</span>
-      </div>
-
-      <!-- Row 4: DE Gate -->
-      <div class="demo-node" id="n-de-gate" style="top: 57%; left: 58%;">
-        <span class="node-emoji">🇩🇪</span>
-        <span class="node-name">DE Gate</span>
-        <span class="node-sub">UIL pronađen</span>
-      </div>
-
-      <!-- Row 4: DE Platform -->
-      <div class="demo-node" id="n-de-plat" style="top: 57%; left: 80%;">
-        <span class="node-emoji">☁️</span>
-        <span class="node-name">DE Platforma</span>
-        <span class="node-sub">eFTI podaci · self-declared</span>
-      </div>
-
-      <!-- Row 5: Cross-validation -->
-      <div class="demo-node" id="n-cross" style="top: 73%; left: 10%;">
-        <span class="node-emoji">⚖️</span>
-        <span class="node-name">Cross-validacija</span>
-        <span class="node-sub">eFTI (self-declared) vs. HR registri</span>
-      </div>
-
-      <!-- Row 5: Outcome -->
-      <div class="demo-node" id="n-outcome" style="top: 73%; left: 40%;">
-        <span class="node-emoji">✅</span>
-        <span class="node-name">Ishod: SUKLADNO</span>
-        <span class="node-sub">Zapis u eADR op. bazu</span>
-      </div>
-
-      <!-- Row 5: AFFINIS Export -->
-      <div class="demo-node" id="n-export" style="top: 73%; left: 68%;">
-        <span class="node-emoji">📈</span>
-        <span class="node-name">Export → AFFINIS</span>
-        <span class="node-sub">Postaje historijski nakon 2 god.</span>
-      </div>
-
-      <!-- Narration Box -->
-      <div class="narration-box" id="narration">
+      <!-- ===== NARRATION (below stage — no overlap) ===== -->
+      <div class="narration-panel" id="narration">
         <div class="narration-step" id="narrStep"></div>
         <div class="narration-title" id="narrTitle"></div>
         <div class="narration-text" id="narrText"></div>
       </div>
 
-      <!-- Start Overlay -->
-      <div class="start-overlay" id="startOverlay">
-        <h2>🎬 eFTI End-to-End Demo</h2>
-        <p>Animirani prikaz kompletnog scenarija cestovnog nadzora prijevoza opasnih tvari — 13 koraka. eADR je modul unutar eFTI sustava, a ne zasebna aplikacija.</p>
-        <button class="btn-play" id="btnStart" onclick="startDemo()">
-          <span class="play-icon">▶</span> Pokreni animaciju
-        </button>
-      </div>
-
-      <!-- Finish Overlay -->
-      <div class="finish-overlay" id="finishOverlay">
-        <h2>✅ Scenarij završen</h2>
-        <p>Kompletni tok podataka pri cestovnom nadzoru — od NIAS autentikacije do AFFINIS exporta — prikazan kroz sve eFTI komponente i nacionalne registre.</p>
-        <button class="btn-play" onclick="resetDemo()">
-          <span class="play-icon">🔄</span> Ponovi od početka
-        </button>
-      </div>
-
-      <!-- Controls -->
+      <!-- ===== CONTROLS ===== -->
       <div class="demo-controls">
         <button class="btn-play" id="btnPlay" onclick="playPause()" disabled>
           <span class="play-icon" id="playIcon">▶</span>
           <span id="playLabel">Play</span>
         </button>
         <button class="btn-step" id="btnNext" onclick="nextStep()" disabled>Sljedeći ▸</button>
-        <button class="btn-step" id="btnReset" onclick="resetDemo()">⟲ Reset</button>
+        <button class="btn-step" onclick="resetDemo()">⟲ Reset</button>
         <div class="progress-bar">
           <div class="progress-fill" id="progressFill"></div>
         </div>
@@ -617,10 +491,10 @@
         <div class="speed-control">
           <label>Brzina:</label>
           <select id="speedSelect" onchange="updateSpeed()">
-            <option value="2000">0.5×</option>
-            <option value="1200" selected>1×</option>
-            <option value="700">2×</option>
-            <option value="400">3×</option>
+            <option value="2400">0.5×</option>
+            <option value="1400" selected>1×</option>
+            <option value="800">2×</option>
+            <option value="450">3×</option>
           </select>
         </div>
       </div>
@@ -643,163 +517,12 @@
 <script src="js/main.js"></script>
 <script>
 // ===== DEMO ENGINE =====
-
 let currentStep = -1;
 let isPlaying = false;
 let playTimer = null;
-let stepDelay = 1200;
-const totalSteps = 12;
-
-function getCenter(id) {
-  const el = document.getElementById(id);
-  const stage = document.getElementById('demoStage');
-  const sr = stage.getBoundingClientRect();
-  const er = el.getBoundingClientRect();
-  return {
-    x: er.left - sr.left + er.width / 2,
-    y: er.top - sr.top + er.height / 2
-  };
-}
-
-function getEdge(id, side) {
-  const el = document.getElementById(id);
-  const stage = document.getElementById('demoStage');
-  const sr = stage.getBoundingClientRect();
-  const er = el.getBoundingClientRect();
-  const cx = er.left - sr.left + er.width / 2;
-  const cy = er.top - sr.top + er.height / 2;
-  switch(side) {
-    case 'right': return { x: er.left - sr.left + er.width, y: cy };
-    case 'left': return { x: er.left - sr.left, y: cy };
-    case 'bottom': return { x: cx, y: er.top - sr.top + er.height };
-    case 'top': return { x: cx, y: er.top - sr.top };
-    default: return { x: cx, y: cy };
-  }
-}
-
-let arrowCounter = 0;
-function drawArrow(fromId, fromSide, toId, toSide) {
-  const svg = document.getElementById('arrowLayer');
-  const from = getEdge(fromId, fromSide);
-  const to = getEdge(toId, toSide);
-
-  // Calc path with a slight curve
-  const dx = to.x - from.x;
-  const dy = to.y - from.y;
-  const cx1 = from.x + dx * 0.4;
-  const cy1 = from.y;
-  const cx2 = from.x + dx * 0.6;
-  const cy2 = to.y;
-
-  const pathId = 'arrow-' + (arrowCounter++);
-
-  // Path
-  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-  path.setAttribute('d', `M ${from.x} ${from.y} C ${cx1} ${cy1}, ${cx2} ${cy2}, ${to.x} ${to.y}`);
-  path.setAttribute('class', 'arrow-path');
-  path.setAttribute('id', pathId);
-  // Measure length
-  svg.appendChild(path);
-  const len = path.getTotalLength();
-  path.style.strokeDasharray = len;
-  path.style.strokeDashoffset = len;
-
-  // Arrowhead
-  const angle = Math.atan2(to.y - cy2, to.x - cx2);
-  const headSize = 8;
-  const hx1 = to.x - headSize * Math.cos(angle - Math.PI / 6);
-  const hy1 = to.y - headSize * Math.sin(angle - Math.PI / 6);
-  const hx2 = to.x - headSize * Math.cos(angle + Math.PI / 6);
-  const hy2 = to.y - headSize * Math.sin(angle + Math.PI / 6);
-
-  const head = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-  head.setAttribute('points', `${to.x},${to.y} ${hx1},${hy1} ${hx2},${hy2}`);
-  head.setAttribute('class', 'arrow-head');
-  head.setAttribute('id', pathId + '-head');
-  svg.appendChild(head);
-
-  // Pulse circle
-  const pulse = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-  pulse.setAttribute('cx', to.x);
-  pulse.setAttribute('cy', to.y);
-  pulse.setAttribute('r', '4');
-  pulse.setAttribute('class', 'arrow-pulse');
-  pulse.setAttribute('id', pathId + '-pulse');
-  svg.appendChild(pulse);
-
-  // Animate
-  requestAnimationFrame(() => {
-    path.classList.add('animating');
-    setTimeout(() => {
-      head.classList.add('visible');
-      pulse.classList.add('active');
-    }, 600);
-  });
-
-  return pathId;
-}
-
-function dimArrow(pathId) {
-  const path = document.getElementById(pathId);
-  const head = document.getElementById(pathId + '-head');
-  if (path) path.classList.add('done');
-  if (head) head.classList.add('done');
-}
-
-function showNode(id) {
-  const el = document.getElementById(id);
-  el.classList.add('visible', 'active');
-}
-
-function dimNode(id) {
-  const el = document.getElementById(id);
-  el.classList.remove('active');
-  el.classList.add('done');
-}
-
-function activateNode(id) {
-  const el = document.getElementById(id);
-  el.classList.add('visible', 'active');
-  el.classList.remove('done');
-}
-
-function setNarration(step, title, text) {
-  const box = document.getElementById('narration');
-  document.getElementById('narrStep').textContent = `Korak ${step} / ${totalSteps}`;
-  document.getElementById('narrTitle').textContent = title;
-  document.getElementById('narrText').textContent = text;
-  box.classList.add('visible');
-}
-
-function updateProgress() {
-  const pct = ((currentStep + 1) / totalSteps) * 100;
-  document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('stepCounter').textContent = `${currentStep + 1} / ${totalSteps}`;
-}
-
-// Stored arrows from each step so we can dim them
-let stepArrows = [];
-
-<script>
-// ===== DEMO ENGINE =====
-
-let currentStep = -1;
-let isPlaying = false;
-let playTimer = null;
-let stepDelay = 1200;
+let stepDelay = 1400;
 const totalSteps = 13;
 
-function getCenter(id) {
-  const el = document.getElementById(id);
-  const stage = document.getElementById('demoStage');
-  const sr = stage.getBoundingClientRect();
-  const er = el.getBoundingClientRect();
-  return {
-    x: er.left - sr.left + er.width / 2,
-    y: er.top - sr.top + er.height / 2
-  };
-}
-
 function getEdge(id, side) {
   const el = document.getElementById(id);
   const stage = document.getElementById('demoStage');
@@ -821,14 +544,23 @@ function drawArrow(fromId, fromSide, toId, toSide) {
   const svg = document.getElementById('arrowLayer');
   const from = getEdge(fromId, fromSide);
   const to = getEdge(toId, toSide);
-
   const dx = to.x - from.x;
   const dy = to.y - from.y;
-  const cx1 = from.x + dx * 0.4;
-  const cy1 = from.y;
-  const cx2 = from.x + dx * 0.6;
-  const cy2 = to.y;
-
+  // Use different curve based on direction
+  let cx1, cy1, cx2, cy2;
+  if (Math.abs(dy) > Math.abs(dx)) {
+    // Primarily vertical
+    cx1 = from.x;
+    cy1 = from.y + dy * 0.4;
+    cx2 = to.x;
+    cy2 = from.y + dy * 0.6;
+  } else {
+    // Primarily horizontal
+    cx1 = from.x + dx * 0.4;
+    cy1 = from.y;
+    cx2 = from.x + dx * 0.6;
+    cy2 = to.y;
+  }
   const pathId = 'arrow-' + (arrowCounter++);
 
   const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
@@ -841,14 +573,9 @@ function drawArrow(fromId, fromSide, toId, toSide) {
   path.style.strokeDashoffset = len;
 
   const angle = Math.atan2(to.y - cy2, to.x - cx2);
-  const headSize = 8;
-  const hx1 = to.x - headSize * Math.cos(angle - Math.PI / 6);
-  const hy1 = to.y - headSize * Math.sin(angle - Math.PI / 6);
-  const hx2 = to.x - headSize * Math.cos(angle + Math.PI / 6);
-  const hy2 = to.y - headSize * Math.sin(angle + Math.PI / 6);
-
+  const hs = 8;
   const head = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-  head.setAttribute('points', `${to.x},${to.y} ${hx1},${hy1} ${hx2},${hy2}`);
+  head.setAttribute('points', `${to.x},${to.y} ${to.x - hs*Math.cos(angle-Math.PI/6)},${to.y - hs*Math.sin(angle-Math.PI/6)} ${to.x - hs*Math.cos(angle+Math.PI/6)},${to.y - hs*Math.sin(angle+Math.PI/6)}`);
   head.setAttribute('class', 'arrow-head');
   head.setAttribute('id', pathId + '-head');
   svg.appendChild(head);
@@ -868,77 +595,55 @@ function drawArrow(fromId, fromSide, toId, toSide) {
       pulse.classList.add('active');
     }, 600);
   });
-
   return pathId;
 }
 
-function dimArrow(pathId) {
-  const path = document.getElementById(pathId);
-  const head = document.getElementById(pathId + '-head');
-  if (path) path.classList.add('done');
-  if (head) head.classList.add('done');
-}
-
-function showNode(id) {
-  const el = document.getElementById(id);
-  el.classList.add('visible', 'active');
-}
-
-function dimNode(id) {
-  const el = document.getElementById(id);
-  el.classList.remove('active');
-  el.classList.add('done');
-}
-
-function activateNode(id) {
-  const el = document.getElementById(id);
-  el.classList.add('visible', 'active');
-  el.classList.remove('done');
-}
+function showNode(id) { const el = document.getElementById(id); el.classList.add('visible', 'active'); }
+function dimNode(id) { const el = document.getElementById(id); el.classList.remove('active'); el.classList.add('done'); }
+function activateNode(id) { const el = document.getElementById(id); el.classList.add('visible', 'active'); el.classList.remove('done'); }
+function showBox(id) { document.getElementById(id).classList.add('visible'); }
 
 function setNarration(step, title, text) {
-  const box = document.getElementById('narration');
   document.getElementById('narrStep').textContent = `Korak ${step} / ${totalSteps}`;
   document.getElementById('narrTitle').textContent = title;
   document.getElementById('narrText').textContent = text;
-  box.classList.add('visible');
+  document.getElementById('narration').classList.remove('empty');
 }
 
 function updateProgress() {
-  const pct = ((currentStep + 1) / totalSteps) * 100;
-  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressFill').style.width = ((currentStep + 1) / totalSteps * 100) + '%';
   document.getElementById('stepCounter').textContent = `${currentStep + 1} / ${totalSteps}`;
 }
 
 let stepArrows = [];
 
-// ===== STEP DEFINITIONS (CORRECTED FLOW) =====
+// ===== 13 STEPS =====
 const steps = [
-  // Step 0: Inspector appears
+  // 1: Inspector
   function() {
     showNode('n-inspector');
     setNarration(1, '👮 Inspektor zaustavlja vozilo',
       'Inspektor na cestovnom punktu zaustavlja cisternsko vozilo registarskih oznaka ZG-7823-KD. Započinje postupak nadzora prijevoza opasnih tvari.');
   },
-  // Step 1: NIAS login
+  // 2: NIAS
   function() {
     dimNode('n-inspector');
     showNode('n-nias');
     stepArrows.push(drawArrow('n-inspector', 'right', 'n-nias', 'left'));
     setNarration(2, '🔐 Autentikacija — NIAS',
-      'Inspektor se prijavljuje putem NIAS sustava (SAML 2.0). Dobiva ROLE_INSPECTOR token s ovlastima iz Authorisation Registry-ja. Sesija aktivna.');
+      'Inspektor se prijavljuje putem NIAS sustava (SAML 2.0). Dobiva ROLE_INSPECTOR token s ovlastima iz Authorisation Registry-ja.');
   },
-  // Step 2: eADR modul — NOT separate app!
+  // 3: eADR modul (INSIDE eFTI box)
   function() {
     dimNode('n-nias');
+    showBox('efti-box');
     showNode('n-eadr');
     stepArrows.push(drawArrow('n-nias', 'right', 'n-eadr', 'left'));
-    setNarration(3, '📋 eADR modul — unos reg. oznake',
-      'Inspektor koristi eADR modul (režim unutar eFTI sustava, NE zasebna aplikacija). Unosi registarsku oznaku: ZG-7823-KD. Sustav identificira vozilo i određuje radi li se o domaćem ili stranom prijevozniku.');
+    setNarration(3, '📋 eADR modul unutar eFTI sustava',
+      'Inspektor koristi eADR modul — to je REŽIM (modul) unutar eFTI sustava, NE zasebna aplikacija. Isprekidani okvir "eFTI SUSTAV" pokazuje da je eADR sastavni dio eFTI-ja. Inspektor unosi reg. oznaku: ZG-7823-KD.');
   },
-  // Step 3: Vehicle identified → HR carrier decision
+  // 4: Vehicle → HR decision
   function() {
-    dimNode('n-eadr');
     showNode('n-vehicle');
     stepArrows.push(drawArrow('n-eadr', 'right', 'n-vehicle', 'left'));
     setTimeout(() => {
@@ -946,9 +651,9 @@ const steps = [
       stepArrows.push(drawArrow('n-vehicle', 'right', 'n-decision', 'left'));
     }, 500);
     setNarration(4, '🚛 Identifikacija → HR prijevoznik',
-      'Vozilo ZG-7823-KD identificirano u HR registru — domaći prijevoznik! KLJUČNA RAZLIKA: za HR prijevoznike eADR može ELEKTRONIČKI provjeriti svih 8 nacionalnih registara. Za strane prijevoznike — samo fizička verifikacija jer HR nema pristup stranim registrima.');
+      'Vozilo ZG-7823-KD identificirano u HR registru — domaći prijevoznik. KLJUČNA RAZLIKA: Za HR prijevoznike eADR može ELEKTRONIČKI provjeriti svih 8 nacionalnih registara. Za strane prijevoznike — samo fizička verifikacija dokumenata jer HR nema pristup stranim registrima.');
   },
-  // Step 4: 8 Registers check (ONLY for HR carrier!)
+  // 5: 8 Registers (HR only)
   function() {
     dimNode('n-vehicle'); dimNode('n-decision');
     activateNode('n-eadr');
@@ -961,34 +666,33 @@ const steps = [
       setTimeout(() => showNode('n-reg-c'), 600);
     }, 500);
     setNarration(5, '📋 8 nacionalnih registara (jer HR prijevoznik)',
-      'Jer je HR prijevoznik, eADR ELEKTRONIČKI provjerava svih 8 registara: ADR vozila (odobrenje ✓), ADR vozači (potvrda za klasu 3 ✓), sig. savjetnici, učilišta, ispitni centri, dopuštenja (UN 1203 ✓), prijevoznici (licencija ✓), nadzori. NAPOMENA: Za stranog prijevoznika ovaj korak NE BI bio moguć — inspektor bi morao fizički provjeriti dokumente.');
+      'Jer je HR prijevoznik, eADR modul ELEKTRONIČKI provjerava svih 8 registara: ADR vozila (odobrenje ✓), ADR vozači (potvrda za klasu 3 ✓), sigurnosni savjetnici, učilišta, ispitni centri, dopuštenja (UN 1203 ✓), prijevoznici (licencija ✓), nadzori. Za stranog prijevoznika — ovaj korak NE BI bio moguć.');
   },
-  // Step 5: eADR Operational DB — recent inspections
+  // 6: eADR Op. baza
   function() {
-    dimNode('n-registers');
-    dimNode('n-reg-v'); dimNode('n-reg-d'); dimNode('n-reg-p'); dimNode('n-reg-c');
+    dimNode('n-registers'); dimNode('n-reg-v'); dimNode('n-reg-d'); dimNode('n-reg-p'); dimNode('n-reg-c');
     dimNode('n-eadr');
     showNode('n-eadr-db');
     stepArrows.push(drawArrow('n-eadr', 'bottom', 'n-eadr-db', 'top'));
-    setNarration(6, '🗄️ eADR operativna baza — prethodni nadzori',
-      'eADR dohvaća iz vlastite operativne baze podataka: prethodne nadzore ovog prijevoznika/vozila/vozača, operativne podatke, status dopuštenja, povijest prekršaja. Ovo su AKTUALNI/OPERATIVNI podaci — NE iz AFFINIS DWH-a.');
+    setNarration(6, '🗄️ eADR operativna baza — aktualni podaci',
+      'eADR dohvaća iz vlastite operativne baze: prethodni nadzori ovog prijevoznika/vozila/vozača, operativni statusi, povijest prekršaja. Ovo su AKTUALNI podaci (ne iz AFFINIS-a). Tahografski podaci se također dohvaćaju iz operativnih izvora.');
   },
-  // Step 6: AFFINIS — ONLY >2yr historical data
+  // 7: AFFINIS (only >2yr)
   function() {
     dimNode('n-eadr-db');
     showNode('n-affinis');
     stepArrows.push(drawArrow('n-eadr-db', 'bottom', 'n-affinis', 'top'));
-    setNarration(7, '📊 AFFINIS DWH — SAMO historija >2 godine',
-      'Iz AFFINIS DWH dohvaćaju se ISKLJUČIVO podaci stariji od 2 godine: analiza dugoročnih trendova prekršaja ovog prijevoznika, statistika po klasi opasnih tvari, korelacije. Na temelju ove analize inspektor može procijeniti rizik i donijeti informiranije odluke o razini provjere.');
+    setNarration(7, '📊 AFFINIS DWH — SAMO historija starija od 2 godine',
+      'Iz AFFINIS DWH dohvaćaju se ISKLJUČIVO podaci stariji od 2 godine: analiza dugoročnih trendova prekršaja, statistika po klasi opasnih tvari, korelacije. Na temelju ove historijske analize inspektor može procijeniti rizik i odlučiti o intenzitetu provjere.');
   },
-  // Step 7: Physical inspection
+  // 8: Physical
   function() {
     dimNode('n-affinis');
     showNode('n-physical');
     setNarration(8, '🔧 Fizički pregled vozila',
-      'Inspektor fizički provjerava: ADR oznake (naranč. ploča 33/1203 ✓), ADR opremu (vatrogasni aparati, zaštitna odjeća ✓), pakiranje tereta ✓, transportni dokument i DG deklaraciju ✓. Fizička provjera je OBAVEZNA neovisno o tome je li prijevoznik domaći ili strani.');
+      'Inspektor fizički provjerava: ADR oznake (naranč. ploča 33/1203 ✓), ADR opremu (vatrogasni aparati, zaštitna odjeća ✓), pakiranje tereta ✓, transportni dokument i DG deklaraciju ✓. Fizička provjera je OBAVEZNA neovisno je li prijevoznik domaći ili strani.');
   },
-  // Step 8: eFTI chain: eADR → HR AAP → HR Gate → Search
+  // 9: eFTI chain — eADR → AAP → Gate → Search
   function() {
     dimNode('n-physical');
     activateNode('n-eadr');
@@ -996,38 +700,32 @@ const steps = [
     showNode('n-hr-gate');
     showNode('n-search');
     stepArrows.push(drawArrow('n-eadr', 'bottom', 'n-hr-aap', 'top'));
-    setTimeout(() => {
-      stepArrows.push(drawArrow('n-hr-aap', 'right', 'n-hr-gate', 'left'));
-    }, 400);
-    setTimeout(() => {
-      stepArrows.push(drawArrow('n-hr-gate', 'right', 'n-search', 'left'));
-    }, 800);
-    setNarration(9, '🌐 eFTI dohvat — Procedura B (Search)',
-      'eADR modul (kao dio eFTI sustava) pokreće eFTI pretragu: eADR → HR AAP → HR Gate → Search Mechanism. Pretražuje po reg. oznaci ZG-7823-KD. HR RoI nema eFTI zapis za ovu pošiljku — Search prosljeđuje na sve ostale Gateove (Čl. 8(4)).');
+    setTimeout(() => stepArrows.push(drawArrow('n-hr-aap', 'right', 'n-hr-gate', 'left')), 400);
+    setTimeout(() => stepArrows.push(drawArrow('n-hr-gate', 'right', 'n-search', 'left')), 800);
+    setNarration(9, '🌐 eFTI dohvat — kroz eFTI komponente',
+      'eADR modul (kao dio eFTI sustava) pokreće eFTI pretragu: eADR → HR AAP → HR Gate → Search Mechanism. Pretražuje po reg. oznaci. HR RoI nema eFTI zapis — Search prosljeđuje zahtjev na sve ostale Gateove (Čl. 8(4)).');
   },
-  // Step 9: DE Gate found → DE Platform
+  // 10: DE Gate → DE Platform
   function() {
     dimNode('n-eadr'); dimNode('n-hr-aap'); dimNode('n-hr-gate');
     activateNode('n-search');
     showNode('n-de-gate');
     showNode('n-de-plat');
     stepArrows.push(drawArrow('n-search', 'bottom', 'n-de-gate', 'top'));
-    setTimeout(() => {
-      stepArrows.push(drawArrow('n-de-gate', 'right', 'n-de-plat', 'left'));
-    }, 500);
+    setTimeout(() => stepArrows.push(drawArrow('n-de-gate', 'right', 'n-de-plat', 'left')), 500);
     setNarration(10, '🇩🇪 DE Gate — UIL pronađen!',
-      'Search pronalazi UIL na DE Gate-u: DE-GATE-01.DE-PLAT-0042.a7b3c9d1-... eFTI1451=true (opasne tvari). DE Gate prosljeđuje zahtjev na DE Platformu za DG podskup podataka (selective pull). VAŽNO: Podaci na platformi su SELF-DECLARED — upisao ih je gospodarski subjekt, ne nadležno tijelo.');
+      'Search pronalazi UIL na DE Gate-u. eFTI1451=true (opasne tvari). DE Gate prosljeđuje zahtjev na DE Platformu za DG podskup (selective pull). VAŽNO: Podaci na platformi su SELF-DECLARED — upisao ih je gospodarski subjekt, ne nadležno tijelo.');
   },
-  // Step 10: DG Dataset returned
+  // 11: DG Dataset
   function() {
     dimNode('n-search'); dimNode('n-de-gate');
     activateNode('n-de-plat');
     showNode('n-dg-data');
     stepArrows.push(drawArrow('n-de-plat', 'left', 'n-dg-data', 'right'));
-    setNarration(11, '☣️ DG Dataset — Self-declared podaci vraćeni',
-      'DE Platforma vraća DG podskup: UN 1203 (benzin), klasa 3, F1, PG II, cisterna 24.000L, tunnel D/E, transport kat. 2. Ovi podaci su SELF-DECLARED — eFTI platforma validira FORMAT (UN broj = 4 znamenke), ali NE PROVJERAVA valjanost ADR potvrda jer nema pristup nacionalnim registrima.');
+    setNarration(11, '☣️ DG Dataset — Self-declared podaci',
+      'DE Platforma vraća DG podskup: UN 1203 (benzin), klasa 3, F1, PG II, cisterna 24.000L, tunnel D/E. Ovi podaci su SELF-DECLARED — eFTI platforma validira samo FORMAT (UN broj = 4 znamenke), ali NE PROVJERAVA valjanost ADR potvrda.');
   },
-  // Step 11: Cross-validation — eFTI self-declared vs. HR registers
+  // 12: Cross-validation
   function() {
     dimNode('n-de-plat'); dimNode('n-dg-data');
     showNode('n-cross');
@@ -1035,24 +733,21 @@ const steps = [
     activateNode('n-registers');
     stepArrows.push(drawArrow('n-registers', 'bottom', 'n-cross', 'top'));
     setNarration(12, '⚖️ Cross-validacija — Self-declared vs. HR registri',
-      'eADR uspoređuje SELF-DECLARED podatke s eFTI platforme s ELEKTRONIČKIM podacima iz HR registara: eFTI kaže klasa 3, UN 1203, cisterna 24.000L → HR registar potvrđuje: vozač ima potvrdu za klasu 3 ✓, vozilo odobreno ✓, dopuštenje aktivno ✓. KLJUČNA VRIJEDNOST: Jer je HR prijevoznik, cross-validacija je elektronička i pouzdana.');
+      'eADR uspoređuje SELF-DECLARED podatke s eFTI platforme s ELEKTRONIČKIM podacima iz HR registara: klasa 3 ✓, UN 1203 ✓, vozač potvrda ✓, vozilo odobreno ✓, dopuštenje aktivno ✓. Jer je HR prijevoznik — cross-validacija je elektronička i pouzdana.');
   },
-  // Step 12: Outcome + Export
+  // 13: Outcome + Export
   function() {
     dimNode('n-cross'); dimNode('n-registers');
     showNode('n-outcome');
     showNode('n-export');
     stepArrows.push(drawArrow('n-cross', 'right', 'n-outcome', 'left'));
-    setTimeout(() => {
-      stepArrows.push(drawArrow('n-outcome', 'right', 'n-export', 'left'));
-    }, 500);
+    setTimeout(() => stepArrows.push(drawArrow('n-outcome', 'right', 'n-export', 'left')), 500);
     setNarration(13, '✅ Ishod → eADR baza → AFFINIS (nakon 2 god.)',
-      'Rezultat nadzora: SUKLADNO — svi ADR uvjeti ispunjeni. Zapis se pohranjuje u eADR operativnu bazu (odmah dostupan za buduće nadzore). Nakon 2 godine, ovaj zapis prelazi u AFFINIS DWH gdje postaje dio historijske analitike za trendove prekršaja i KPI dashboarde.');
+      'SUKLADNO — svi ADR uvjeti ispunjeni. Zapis se pohranjuje u eADR operativnu bazu (odmah za buduće nadzore). Nakon 2 godine, zapis prelazi u AFFINIS DWH kao dio historijske analitike za trendove prekršaja i KPI dashboarde.');
   }
 ];
 
 // ===== CONTROLS =====
-
 function startDemo() {
   document.getElementById('startOverlay').classList.add('hidden');
   document.getElementById('btnPlay').disabled = false;
@@ -1064,10 +759,7 @@ function startDemo() {
 }
 
 function playPause() {
-  if (currentStep >= totalSteps - 1) {
-    resetDemo();
-    return;
-  }
+  if (currentStep >= totalSteps - 1) { resetDemo(); return; }
   isPlaying = !isPlaying;
   updatePlayButton();
   if (isPlaying) advanceStep();
@@ -1083,19 +775,13 @@ function advanceStep() {
   if (currentStep >= totalSteps - 1) {
     isPlaying = false;
     updatePlayButton();
-    // Show finish overlay after short delay
-    setTimeout(() => {
-      document.getElementById('finishOverlay').classList.add('visible');
-    }, 800);
+    setTimeout(() => document.getElementById('finishOverlay').classList.add('visible'), 800);
     return;
   }
   currentStep++;
   steps[currentStep]();
   updateProgress();
-
-  if (isPlaying) {
-    playTimer = setTimeout(advanceStep, stepDelay + 800);
-  }
+  if (isPlaying) playTimer = setTimeout(advanceStep, stepDelay + 800);
 }
 
 function nextStep() {
@@ -1107,9 +793,7 @@ function nextStep() {
     steps[currentStep]();
     updateProgress();
     if (currentStep >= totalSteps - 1) {
-      setTimeout(() => {
-        document.getElementById('finishOverlay').classList.add('visible');
-      }, 800);
+      setTimeout(() => document.getElementById('finishOverlay').classList.add('visible'), 800);
     }
   }
 }
@@ -1119,65 +803,39 @@ function resetDemo() {
   isPlaying = false;
   currentStep = -1;
   updatePlayButton();
-
-  // Clear all arrows
   document.getElementById('arrowLayer').innerHTML = '';
   arrowCounter = 0;
   stepArrows = [];
-
-  // Hide all nodes
-  document.querySelectorAll('.demo-node').forEach(n => {
-    n.classList.remove('visible', 'active', 'done');
-  });
-
-  // Hide narration
-  document.getElementById('narration').classList.remove('visible');
-
-  // Reset progress
+  document.querySelectorAll('.demo-node').forEach(n => n.classList.remove('visible', 'active', 'done'));
+  document.querySelectorAll('.efti-system-box').forEach(b => b.classList.remove('visible'));
+  document.getElementById('narrStep').textContent = '';
+  document.getElementById('narrTitle').textContent = '';
+  document.getElementById('narrText').textContent = '';
+  document.getElementById('narration').classList.add('empty');
   document.getElementById('progressFill').style.width = '0%';
   document.getElementById('stepCounter').textContent = '0 / ' + totalSteps;
-
-  // Hide finish overlay
   document.getElementById('finishOverlay').classList.remove('visible');
-
-  // Show start overlay
   document.getElementById('startOverlay').classList.remove('hidden');
   document.getElementById('btnPlay').disabled = true;
   document.getElementById('btnNext').disabled = true;
 }
 
-function updateSpeed() {
-  stepDelay = parseInt(document.getElementById('speedSelect').value);
-}
+function updateSpeed() { stepDelay = parseInt(document.getElementById('speedSelect').value); }
 
-// Recalculate arrow positions on resize (simple: just reset)
 window.addEventListener('resize', () => {
   if (currentStep >= 0) {
-    // Re-run from scratch on resize to fix positions
-    const savedStep = currentStep;
-    const wasPlaying = isPlaying;
+    const saved = currentStep, was = isPlaying;
     clearTimeout(playTimer);
     isPlaying = false;
-
     document.getElementById('arrowLayer').innerHTML = '';
     arrowCounter = 0;
     stepArrows = [];
-    document.querySelectorAll('.demo-node').forEach(n => {
-      n.classList.remove('visible', 'active', 'done');
-    });
-
+    document.querySelectorAll('.demo-node').forEach(n => n.classList.remove('visible', 'active', 'done'));
+    document.querySelectorAll('.efti-system-box').forEach(b => b.classList.remove('visible'));
     currentStep = -1;
-    for (let i = 0; i <= savedStep; i++) {
-      currentStep = i;
-      steps[i]();
-    }
+    for (let i = 0; i <= saved; i++) { currentStep = i; steps[i](); }
     updateProgress();
-
-    if (wasPlaying) {
-      isPlaying = true;
-      updatePlayButton();
-      playTimer = setTimeout(advanceStep, stepDelay + 800);
-    }
+    if (was) { isPlaying = true; updatePlayButton(); playTimer = setTimeout(advanceStep, stepDelay + 800); }
   }
 });
 </script>
